@@ -1,0 +1,970 @@
+[
+  {
+    "client_name": "Tiena Haws",
+    "barber_name": "Verina Brunesco",
+    "service": ["depilação facial", "tratamento capilar"],
+    "date": "2025-02-19 06:43:56",
+    "status": "confirmed",
+    "created_at": "2024-05-12 02:35:02",
+    "updated_at": "2025-01-17 13:58:28"
+  },
+  {
+    "client_name": "Othelia Mitkov",
+    "barber_name": "Lind Juszczak",
+    "service": ["design de sobrancelhas", "barba completa"],
+    "date": "2025-01-17 09:23:41",
+    "status": "confirmed",
+    "created_at": "2024-04-11 05:11:06",
+    "updated_at": "2025-01-05 21:23:56"
+  },
+  {
+    "client_name": "Joanie Hows",
+    "barber_name": "Elga Yeudall",
+    "service": ["design de sobrancelhas"],
+    "date": "2025-03-27 06:48:01",
+    "status": "canceled",
+    "created_at": "2024-09-07 07:22:43",
+    "updated_at": "2025-03-04 21:02:37"
+  },
+  {
+    "client_name": "Kariotta Harradine",
+    "barber_name": "Eba Crose",
+    "service": [
+      "massagem facial",
+      "aplicação de tintura",
+      "design de sobrancelhas"
+    ],
+    "date": "2024-06-17 19:03:36",
+    "status": "confirmed",
+    "created_at": "2025-01-20 21:06:59",
+    "updated_at": "2024-09-12 13:07:43"
+  },
+  {
+    "client_name": "Odette Angell",
+    "barber_name": "Gav Aindriu",
+    "service": ["barba completa", "corte e barba", "depilação facial"],
+    "date": "2025-03-27 08:34:04",
+    "status": "canceled",
+    "created_at": "2024-04-24 19:41:23",
+    "updated_at": "2025-01-21 06:32:23"
+  },
+  {
+    "client_name": "Brina Taudevin",
+    "barber_name": "Willey Hicken",
+    "service": ["design de sobrancelhas", "massagem facial"],
+    "date": "2024-12-09 21:28:53",
+    "status": "confirmed",
+    "created_at": "2024-12-09 22:02:42",
+    "updated_at": "2025-02-05 11:31:09"
+  },
+  {
+    "client_name": "Zaccaria Tarry",
+    "barber_name": "Celestia Stevani",
+    "service": [
+      "corte e barba",
+      "design de sobrancelhas",
+      "aplicação de tintura"
+    ],
+    "date": "2025-01-14 22:29:54",
+    "status": "scheduled",
+    "created_at": "2024-05-04 09:02:14",
+    "updated_at": "2024-11-29 03:22:09"
+  },
+  {
+    "client_name": "Sofie Briand",
+    "barber_name": "Ky Kubicek",
+    "service": ["tratamento capilar", "corte de cabelo masculino"],
+    "date": "2024-12-08 07:51:22",
+    "status": "confirmed",
+    "created_at": "2024-08-06 13:44:52",
+    "updated_at": "2024-04-23 10:17:07"
+  },
+  {
+    "client_name": "Alvinia Middleweek",
+    "barber_name": "Graeme Clute",
+    "service": ["corte e barba", "massagem facial"],
+    "date": "2025-03-16 03:15:52",
+    "status": "canceled",
+    "created_at": "2024-09-24 11:21:20",
+    "updated_at": "2024-05-27 23:32:04"
+  },
+  {
+    "client_name": "Olly Deme",
+    "barber_name": "Verla Bygrave",
+    "service": ["massagem facial"],
+    "date": "2024-12-13 01:20:22",
+    "status": "canceled",
+    "created_at": "2024-12-09 19:14:57",
+    "updated_at": "2024-09-21 10:18:54"
+  },
+  {
+    "client_name": "Waiter Sorrie",
+    "barber_name": "Rockie Driffe",
+    "service": ["tratamento capilar"],
+    "date": "2024-12-09 13:00:27",
+    "status": "confirmed",
+    "created_at": "2024-08-21 22:05:04",
+    "updated_at": "2024-11-12 04:13:29"
+  },
+  {
+    "client_name": "Kerwin De Bruin",
+    "barber_name": "Sue Lambersen",
+    "service": [
+      "design de sobrancelhas",
+      "aplicação de tintura",
+      "corte e barba"
+    ],
+    "date": "2025-03-25 10:34:27",
+    "status": "scheduled",
+    "created_at": "2024-11-03 05:13:10",
+    "updated_at": "2025-02-22 01:52:51"
+  },
+  {
+    "client_name": "Toby MacAless",
+    "barber_name": "Malanie Yard",
+    "service": ["corte de cabelo masculino", "tratamento capilar"],
+    "date": "2024-07-08 16:29:32",
+    "status": "confirmed",
+    "created_at": "2024-09-19 09:56:37",
+    "updated_at": "2024-10-19 19:24:02"
+  },
+  {
+    "client_name": "Cassius Tortice",
+    "barber_name": "Falito Gornall",
+    "service": ["corte de cabelo masculino"],
+    "date": "2024-06-03 14:52:52",
+    "status": "scheduled",
+    "created_at": "2024-12-17 05:43:50",
+    "updated_at": "2025-03-21 03:57:44"
+  },
+  {
+    "client_name": "Charlean Luscombe",
+    "barber_name": "Druci Guihen",
+    "service": ["tratamento capilar", "aplicação de tintura"],
+    "date": "2024-12-17 08:28:49",
+    "status": "scheduled",
+    "created_at": "2024-08-04 12:47:16",
+    "updated_at": "2024-11-23 12:59:38"
+  },
+  {
+    "client_name": "Archer Eyre",
+    "barber_name": "Lorrayne Bandt",
+    "service": ["depilação facial"],
+    "date": "2024-08-10 11:19:11",
+    "status": "confirmed",
+    "created_at": "2025-02-18 14:52:29",
+    "updated_at": "2024-10-24 19:19:37"
+  },
+  {
+    "client_name": "Jonis Yerby",
+    "barber_name": "Ketti Cayser",
+    "service": [
+      "aplicação de tintura",
+      "design de sobrancelhas",
+      "corte de cabelo masculino"
+    ],
+    "date": "2024-07-08 20:52:42",
+    "status": "canceled",
+    "created_at": "2025-03-09 18:16:34",
+    "updated_at": "2024-09-25 03:25:03"
+  },
+  {
+    "client_name": "Lyn Paragreen",
+    "barber_name": "Cash Jacob",
+    "service": ["depilação facial", "barba completa"],
+    "date": "2025-01-07 11:40:10",
+    "status": "scheduled",
+    "created_at": "2025-01-05 10:44:57",
+    "updated_at": "2024-12-27 09:37:43"
+  },
+  {
+    "client_name": "Damien MacDowal",
+    "barber_name": "Ev Venner",
+    "service": ["tratamento capilar", "corte e barba"],
+    "date": "2024-05-04 00:45:49",
+    "status": "canceled",
+    "created_at": "2024-04-22 01:01:56",
+    "updated_at": "2025-03-27 13:20:22"
+  },
+  {
+    "client_name": "Talyah Holstein",
+    "barber_name": "Emmanuel Buckett",
+    "service": ["barba completa"],
+    "date": "2024-06-21 15:59:14",
+    "status": "canceled",
+    "created_at": "2024-08-21 18:12:59",
+    "updated_at": "2025-01-18 10:25:00"
+  },
+  {
+    "client_name": "Ingram Chislett",
+    "barber_name": "Chester Goose",
+    "service": ["tratamento capilar"],
+    "date": "2025-02-05 04:16:13",
+    "status": "confirmed",
+    "created_at": "2024-05-07 16:40:05",
+    "updated_at": "2025-03-31 12:14:25"
+  },
+  {
+    "client_name": "Tait Pickthorn",
+    "barber_name": "Thurstan Grayson",
+    "service": ["depilação facial"],
+    "date": "2025-04-02 21:37:43",
+    "status": "scheduled",
+    "created_at": "2024-09-05 20:02:09",
+    "updated_at": "2025-04-04 12:18:40"
+  },
+  {
+    "client_name": "Kimmi Stit",
+    "barber_name": "Katharina Risborough",
+    "service": ["massagem facial", "design de sobrancelhas"],
+    "date": "2024-09-27 05:49:13",
+    "status": "scheduled",
+    "created_at": "2024-04-25 13:04:39",
+    "updated_at": "2025-03-28 23:08:46"
+  },
+  {
+    "client_name": "Maible MacMeanma",
+    "barber_name": "Bent Bantick",
+    "service": ["tratamento capilar", "corte e barba"],
+    "date": "2024-05-06 18:38:36",
+    "status": "scheduled",
+    "created_at": "2024-05-26 04:05:07",
+    "updated_at": "2024-08-30 18:37:30"
+  },
+  {
+    "client_name": "Rand Humbie",
+    "barber_name": "Rafaelia Noen",
+    "service": ["corte e barba"],
+    "date": "2025-01-30 06:03:50",
+    "status": "canceled",
+    "created_at": "2024-04-30 17:51:46",
+    "updated_at": "2024-07-28 05:09:50"
+  },
+  {
+    "client_name": "Camile Vigours",
+    "barber_name": "Marnia Denidge",
+    "service": ["aplicação de tintura"],
+    "date": "2024-08-16 09:16:33",
+    "status": "confirmed",
+    "created_at": "2024-04-30 06:30:04",
+    "updated_at": "2024-05-16 07:29:58"
+  },
+  {
+    "client_name": "Paten Rew",
+    "barber_name": "Tori De Francesco",
+    "service": [
+      "aplicação de tintura",
+      "corte e barba",
+      "corte de cabelo masculino"
+    ],
+    "date": "2024-10-23 01:20:54",
+    "status": "canceled",
+    "created_at": "2024-06-19 16:23:17",
+    "updated_at": "2024-08-09 16:57:11"
+  },
+  {
+    "client_name": "Winthrop Colebeck",
+    "barber_name": "Reuben Bonnett",
+    "service": ["massagem facial"],
+    "date": "2025-03-25 09:58:37",
+    "status": "scheduled",
+    "created_at": "2025-02-05 02:38:25",
+    "updated_at": "2024-10-31 16:55:13"
+  },
+  {
+    "client_name": "Abbye Girtin",
+    "barber_name": "Alaster Bleby",
+    "service": ["depilação facial", "barba completa"],
+    "date": "2024-09-08 20:09:45",
+    "status": "canceled",
+    "created_at": "2024-05-04 23:04:25",
+    "updated_at": "2024-10-04 14:05:58"
+  },
+  {
+    "client_name": "Devonne Barnshaw",
+    "barber_name": "Claresta Dowell",
+    "service": ["design de sobrancelhas", "aplicação de tintura"],
+    "date": "2024-05-31 19:07:33",
+    "status": "scheduled",
+    "created_at": "2024-04-20 22:09:32",
+    "updated_at": "2024-12-30 20:09:45"
+  },
+  {
+    "client_name": "Clement McKune",
+    "barber_name": "Alexandr Kamien",
+    "service": ["corte de cabelo masculino", "aplicação de tintura"],
+    "date": "2024-07-25 12:30:10",
+    "status": "confirmed",
+    "created_at": "2025-02-18 02:34:08",
+    "updated_at": "2025-03-07 12:41:34"
+  },
+  {
+    "client_name": "Rubi Rowbrey",
+    "barber_name": "Vale Menguy",
+    "service": [
+      "corte de cabelo masculino",
+      "design de sobrancelhas",
+      "corte e barba"
+    ],
+    "date": "2024-04-24 03:11:25",
+    "status": "canceled",
+    "created_at": "2024-05-27 04:32:06",
+    "updated_at": "2024-11-26 15:27:08"
+  },
+  {
+    "client_name": "Florencia Cess",
+    "barber_name": "Marybelle Lefridge",
+    "service": ["corte de cabelo masculino", "depilação facial"],
+    "date": "2024-05-12 01:10:01",
+    "status": "scheduled",
+    "created_at": "2024-06-25 18:22:41",
+    "updated_at": "2025-02-04 15:47:13"
+  },
+  {
+    "client_name": "Alaster Sevior",
+    "barber_name": "Marshal Symmers",
+    "service": ["massagem facial"],
+    "date": "2024-10-31 02:21:11",
+    "status": "canceled",
+    "created_at": "2024-04-24 23:56:53",
+    "updated_at": "2024-08-07 13:36:24"
+  },
+  {
+    "client_name": "Gonzalo Kilrow",
+    "barber_name": "Rocky Marvin",
+    "service": [
+      "corte de cabelo masculino",
+      "barba completa",
+      "massagem facial"
+    ],
+    "date": "2024-12-27 02:24:59",
+    "status": "scheduled",
+    "created_at": "2024-09-30 07:09:40",
+    "updated_at": "2024-08-06 14:40:45"
+  },
+  {
+    "client_name": "Chalmers Bengough",
+    "barber_name": "Lewie Elph",
+    "service": [
+      "corte de cabelo masculino",
+      "barba completa",
+      "depilação facial"
+    ],
+    "date": "2024-08-19 02:58:50",
+    "status": "confirmed",
+    "created_at": "2024-10-22 12:03:59",
+    "updated_at": "2024-12-11 22:37:41"
+  },
+  {
+    "client_name": "Riobard Balharrie",
+    "barber_name": "Gisele Kobisch",
+    "service": ["design de sobrancelhas", "depilação facial", "corte e barba"],
+    "date": "2024-11-27 15:08:37",
+    "status": "canceled",
+    "created_at": "2025-01-01 09:43:03",
+    "updated_at": "2024-10-18 22:32:15"
+  },
+  {
+    "client_name": "Gale Demschke",
+    "barber_name": "Kalil Drummond",
+    "service": ["corte de cabelo masculino"],
+    "date": "2024-08-02 20:34:15",
+    "status": "confirmed",
+    "created_at": "2024-07-21 10:08:24",
+    "updated_at": "2025-02-20 03:30:18"
+  },
+  {
+    "client_name": "Tracey Bysh",
+    "barber_name": "Gasper Croall",
+    "service": ["corte e barba"],
+    "date": "2025-02-01 18:29:23",
+    "status": "scheduled",
+    "created_at": "2024-08-20 19:37:12",
+    "updated_at": "2024-11-25 09:54:58"
+  },
+  {
+    "client_name": "Jo Hempel",
+    "barber_name": "Gay O'Lagen",
+    "service": [
+      "tratamento capilar",
+      "aplicação de tintura",
+      "depilação facial"
+    ],
+    "date": "2025-02-03 11:13:39",
+    "status": "canceled",
+    "created_at": "2024-04-26 04:22:27",
+    "updated_at": "2024-11-22 16:34:51"
+  },
+  {
+    "client_name": "Gigi Cridlon",
+    "barber_name": "Vinita Hutsby",
+    "service": [
+      "aplicação de tintura",
+      "corte de cabelo masculino",
+      "design de sobrancelhas"
+    ],
+    "date": "2024-05-24 20:19:53",
+    "status": "scheduled",
+    "created_at": "2024-04-13 03:26:13",
+    "updated_at": "2025-02-25 20:30:29"
+  },
+  {
+    "client_name": "Jobie Jagielski",
+    "barber_name": "Jarrod Challace",
+    "service": ["tratamento capilar", "aplicação de tintura"],
+    "date": "2025-02-16 00:00:58",
+    "status": "confirmed",
+    "created_at": "2024-10-26 08:46:19",
+    "updated_at": "2024-11-16 09:34:44"
+  },
+  {
+    "client_name": "Wang Negro",
+    "barber_name": "Ephraim Jessope",
+    "service": ["tratamento capilar"],
+    "date": "2024-11-18 07:44:21",
+    "status": "scheduled",
+    "created_at": "2024-08-09 17:58:36",
+    "updated_at": "2024-08-12 17:57:31"
+  },
+  {
+    "client_name": "Iago Wales",
+    "barber_name": "Amil Kenningham",
+    "service": ["barba completa"],
+    "date": "2024-07-21 01:43:37",
+    "status": "scheduled",
+    "created_at": "2024-09-03 20:01:57",
+    "updated_at": "2024-09-02 09:31:40"
+  },
+  {
+    "client_name": "Jill D'Ruel",
+    "barber_name": "Rafe Evelyn",
+    "service": ["barba completa", "design de sobrancelhas"],
+    "date": "2025-01-04 16:55:21",
+    "status": "canceled",
+    "created_at": "2024-06-05 12:00:01",
+    "updated_at": "2024-04-24 23:32:06"
+  },
+  {
+    "client_name": "Ilaire Yetts",
+    "barber_name": "Quentin Colkett",
+    "service": ["corte de cabelo masculino", "tratamento capilar"],
+    "date": "2025-02-08 18:08:20",
+    "status": "canceled",
+    "created_at": "2024-07-03 22:10:06",
+    "updated_at": "2025-03-13 03:38:35"
+  },
+  {
+    "client_name": "Tiffi Bathowe",
+    "barber_name": "Randie Kenealy",
+    "service": ["design de sobrancelhas"],
+    "date": "2024-04-30 00:54:15",
+    "status": "confirmed",
+    "created_at": "2024-07-10 18:49:43",
+    "updated_at": "2024-05-12 13:28:15"
+  },
+  {
+    "client_name": "Merle Hargraves",
+    "barber_name": "Nikkie Sancto",
+    "service": ["design de sobrancelhas", "corte e barba", "depilação facial"],
+    "date": "2024-04-17 08:53:24",
+    "status": "canceled",
+    "created_at": "2024-12-08 19:16:54",
+    "updated_at": "2024-07-01 19:33:35"
+  },
+  {
+    "client_name": "Albina Danielsohn",
+    "barber_name": "Janaye Stoacley",
+    "service": ["corte e barba"],
+    "date": "2024-08-20 01:08:07",
+    "status": "canceled",
+    "created_at": "2024-09-20 02:05:23",
+    "updated_at": "2024-10-12 11:47:22"
+  },
+  {
+    "client_name": "Maryjane Zambonini",
+    "barber_name": "Yetty Yelding",
+    "service": [
+      "corte e barba",
+      "corte de cabelo masculino",
+      "aplicação de tintura"
+    ],
+    "date": "2024-04-18 05:54:20",
+    "status": "canceled",
+    "created_at": "2024-11-29 12:33:16",
+    "updated_at": "2024-07-05 08:30:02"
+  },
+  {
+    "client_name": "Billie de Clerq",
+    "barber_name": "Trula Rawnsley",
+    "service": ["corte de cabelo masculino", "aplicação de tintura"],
+    "date": "2024-07-28 08:27:41",
+    "status": "canceled",
+    "created_at": "2024-08-09 18:45:58",
+    "updated_at": "2024-07-25 18:45:24"
+  },
+  {
+    "client_name": "Dietrich Southern",
+    "barber_name": "Markus Comiskey",
+    "service": ["barba completa", "depilação facial", "massagem facial"],
+    "date": "2024-07-07 03:02:30",
+    "status": "scheduled",
+    "created_at": "2024-09-14 01:15:32",
+    "updated_at": "2025-01-02 08:27:17"
+  },
+  {
+    "client_name": "Pablo Kenaway",
+    "barber_name": "Gothart Gathwaite",
+    "service": ["aplicação de tintura", "massagem facial"],
+    "date": "2024-06-28 15:11:46",
+    "status": "confirmed",
+    "created_at": "2024-11-19 16:08:09",
+    "updated_at": "2024-11-20 13:34:48"
+  },
+  {
+    "client_name": "Harold Manford",
+    "barber_name": "Desiree Durram",
+    "service": ["aplicação de tintura"],
+    "date": "2024-05-25 20:18:58",
+    "status": "canceled",
+    "created_at": "2024-12-21 18:43:41",
+    "updated_at": "2024-11-21 13:38:41"
+  },
+  {
+    "client_name": "Konstantin Gush",
+    "barber_name": "Nikki Froment",
+    "service": [
+      "aplicação de tintura",
+      "depilação facial",
+      "tratamento capilar"
+    ],
+    "date": "2024-12-28 09:46:29",
+    "status": "confirmed",
+    "created_at": "2024-12-19 16:23:40",
+    "updated_at": "2025-02-26 19:48:06"
+  },
+  {
+    "client_name": "Mendy Leggis",
+    "barber_name": "Doralia Sneath",
+    "service": ["corte e barba", "tratamento capilar"],
+    "date": "2024-07-07 18:01:27",
+    "status": "canceled",
+    "created_at": "2024-09-18 15:05:48",
+    "updated_at": "2024-09-04 04:53:23"
+  },
+  {
+    "client_name": "Hill Oldknowe",
+    "barber_name": "Broddie Giorgio",
+    "service": [
+      "aplicação de tintura",
+      "design de sobrancelhas",
+      "barba completa"
+    ],
+    "date": "2024-04-13 10:31:18",
+    "status": "confirmed",
+    "created_at": "2024-09-11 21:33:48",
+    "updated_at": "2025-01-14 17:40:38"
+  },
+  {
+    "client_name": "Curran Lawfull",
+    "barber_name": "Mariya Breukelman",
+    "service": ["aplicação de tintura"],
+    "date": "2024-09-01 03:10:31",
+    "status": "scheduled",
+    "created_at": "2024-05-18 22:55:30",
+    "updated_at": "2024-09-16 17:42:11"
+  },
+  {
+    "client_name": "Fredek Mapes",
+    "barber_name": "Cornell Bawme",
+    "service": [
+      "barba completa",
+      "corte de cabelo masculino",
+      "depilação facial"
+    ],
+    "date": "2024-07-03 00:45:45",
+    "status": "scheduled",
+    "created_at": "2024-09-23 21:00:30",
+    "updated_at": "2024-05-11 06:15:46"
+  },
+  {
+    "client_name": "Natty Binyon",
+    "barber_name": "Findlay Nana",
+    "service": ["barba completa", "massagem facial", "design de sobrancelhas"],
+    "date": "2024-12-30 15:08:08",
+    "status": "scheduled",
+    "created_at": "2024-11-23 11:58:37",
+    "updated_at": "2025-02-11 02:54:48"
+  },
+  {
+    "client_name": "Felix Longford",
+    "barber_name": "Darell Macallam",
+    "service": ["corte de cabelo masculino", "aplicação de tintura"],
+    "date": "2024-05-17 07:36:35",
+    "status": "canceled",
+    "created_at": "2024-05-27 22:32:43",
+    "updated_at": "2025-01-20 16:29:26"
+  },
+  {
+    "client_name": "Margalit Pankettman",
+    "barber_name": "Claudio Kernaghan",
+    "service": ["corte e barba", "depilação facial"],
+    "date": "2024-04-18 22:09:48",
+    "status": "confirmed",
+    "created_at": "2025-03-26 05:00:53",
+    "updated_at": "2024-05-10 16:25:41"
+  },
+  {
+    "client_name": "Barry Shortan",
+    "barber_name": "Pieter Campanelli",
+    "service": ["depilação facial", "aplicação de tintura"],
+    "date": "2024-09-28 12:25:33",
+    "status": "scheduled",
+    "created_at": "2024-05-10 14:22:26",
+    "updated_at": "2025-02-12 09:51:34"
+  },
+  {
+    "client_name": "Freemon Dragon",
+    "barber_name": "Dante Courtier",
+    "service": ["barba completa"],
+    "date": "2024-08-17 23:12:42",
+    "status": "canceled",
+    "created_at": "2024-07-31 02:22:54",
+    "updated_at": "2024-11-15 21:43:28"
+  },
+  {
+    "client_name": "Niall Marsden",
+    "barber_name": "Vanni Dennington",
+    "service": ["tratamento capilar"],
+    "date": "2024-05-20 08:22:53",
+    "status": "canceled",
+    "created_at": "2025-01-17 01:15:45",
+    "updated_at": "2025-01-29 20:51:50"
+  },
+  {
+    "client_name": "Sonya Goudman",
+    "barber_name": "Lizette Cossem",
+    "service": ["massagem facial"],
+    "date": "2024-05-06 15:26:49",
+    "status": "scheduled",
+    "created_at": "2024-05-24 02:56:11",
+    "updated_at": "2025-03-19 23:36:56"
+  },
+  {
+    "client_name": "Gaylord Kindle",
+    "barber_name": "Pierre Catterson",
+    "service": ["depilação facial"],
+    "date": "2024-07-01 23:16:20",
+    "status": "canceled",
+    "created_at": "2024-05-18 16:35:18",
+    "updated_at": "2025-03-09 18:12:53"
+  },
+  {
+    "client_name": "Fernande Brackenbury",
+    "barber_name": "Cary Giacopetti",
+    "service": ["tratamento capilar"],
+    "date": "2024-09-17 20:35:46",
+    "status": "confirmed",
+    "created_at": "2024-08-04 23:48:25",
+    "updated_at": "2024-08-11 12:22:39"
+  },
+  {
+    "client_name": "Hanna Ipsgrave",
+    "barber_name": "Waverley Eden",
+    "service": ["depilação facial", "tratamento capilar", "massagem facial"],
+    "date": "2024-09-03 20:17:33",
+    "status": "scheduled",
+    "created_at": "2024-12-10 22:25:03",
+    "updated_at": "2025-03-09 02:39:52"
+  },
+  {
+    "client_name": "Karl Bracken",
+    "barber_name": "Margalo Haller",
+    "service": ["depilação facial"],
+    "date": "2025-03-31 20:11:02",
+    "status": "canceled",
+    "created_at": "2025-03-08 17:28:48",
+    "updated_at": "2024-06-25 04:38:15"
+  },
+  {
+    "client_name": "Roland Simmell",
+    "barber_name": "Kayley Wafer",
+    "service": ["barba completa", "depilação facial"],
+    "date": "2025-03-05 22:34:08",
+    "status": "scheduled",
+    "created_at": "2024-05-29 16:27:07",
+    "updated_at": "2024-11-08 07:32:36"
+  },
+  {
+    "client_name": "Tallia Fletcher",
+    "barber_name": "Juliet Ambrus",
+    "service": ["massagem facial"],
+    "date": "2024-09-05 18:42:20",
+    "status": "canceled",
+    "created_at": "2025-02-03 13:14:33",
+    "updated_at": "2024-06-27 05:24:31"
+  },
+  {
+    "client_name": "Archibold Simmonett",
+    "barber_name": "Trisha Lynd",
+    "service": ["tratamento capilar"],
+    "date": "2024-10-29 08:33:21",
+    "status": "canceled",
+    "created_at": "2024-08-08 11:20:27",
+    "updated_at": "2024-06-16 19:25:23"
+  },
+  {
+    "client_name": "Vito Bremley",
+    "barber_name": "Morley Percifer",
+    "service": ["corte e barba"],
+    "date": "2025-02-11 08:47:52",
+    "status": "scheduled",
+    "created_at": "2024-12-27 13:23:03",
+    "updated_at": "2024-07-23 05:56:34"
+  },
+  {
+    "client_name": "Tynan Miko",
+    "barber_name": "Kyle Cripin",
+    "service": ["barba completa"],
+    "date": "2025-02-03 06:40:32",
+    "status": "scheduled",
+    "created_at": "2024-10-06 13:50:21",
+    "updated_at": "2025-03-08 22:29:36"
+  },
+  {
+    "client_name": "Bartholomeo Blabber",
+    "barber_name": "Flori Welburn",
+    "service": ["tratamento capilar"],
+    "date": "2024-05-08 14:05:26",
+    "status": "canceled",
+    "created_at": "2024-07-08 18:50:25",
+    "updated_at": "2024-10-13 13:00:33"
+  },
+  {
+    "client_name": "Evaleen Fishe",
+    "barber_name": "Christoph Tarry",
+    "service": [
+      "aplicação de tintura",
+      "corte de cabelo masculino",
+      "design de sobrancelhas"
+    ],
+    "date": "2025-03-12 11:06:16",
+    "status": "confirmed",
+    "created_at": "2024-11-04 11:01:07",
+    "updated_at": "2024-05-30 15:20:52"
+  },
+  {
+    "client_name": "Carmelita Botterell",
+    "barber_name": "Emili Beaument",
+    "service": ["barba completa", "aplicação de tintura"],
+    "date": "2025-03-20 11:59:15",
+    "status": "canceled",
+    "created_at": "2024-05-19 07:49:54",
+    "updated_at": "2025-02-04 20:21:59"
+  },
+  {
+    "client_name": "Leonora Tschirschky",
+    "barber_name": "Rona Sygrove",
+    "service": ["barba completa"],
+    "date": "2025-02-11 18:27:44",
+    "status": "confirmed",
+    "created_at": "2024-08-22 21:15:17",
+    "updated_at": "2025-02-28 16:53:58"
+  },
+  {
+    "client_name": "Paxton Lavallin",
+    "barber_name": "Eryn Zellner",
+    "service": ["design de sobrancelhas", "massagem facial"],
+    "date": "2024-09-15 08:06:45",
+    "status": "scheduled",
+    "created_at": "2024-12-09 20:34:53",
+    "updated_at": "2025-04-05 23:19:44"
+  },
+  {
+    "client_name": "Gilbert Puttergill",
+    "barber_name": "Swen Maddison",
+    "service": ["corte e barba"],
+    "date": "2025-03-20 07:27:15",
+    "status": "confirmed",
+    "created_at": "2024-07-21 20:11:36",
+    "updated_at": "2024-11-03 13:58:53"
+  },
+  {
+    "client_name": "Concordia Flemyng",
+    "barber_name": "Noak Yerlett",
+    "service": ["depilação facial"],
+    "date": "2024-06-22 05:31:07",
+    "status": "scheduled",
+    "created_at": "2024-10-08 20:50:47",
+    "updated_at": "2025-01-31 02:11:59"
+  },
+  {
+    "client_name": "Elliot Hirthe",
+    "barber_name": "Frazier Mahomet",
+    "service": ["massagem facial", "corte de cabelo masculino"],
+    "date": "2024-07-17 16:36:20",
+    "status": "confirmed",
+    "created_at": "2024-11-20 08:38:47",
+    "updated_at": "2024-07-29 14:46:24"
+  },
+  {
+    "client_name": "Stephannie Idle",
+    "barber_name": "Louisa Muino",
+    "service": ["corte e barba"],
+    "date": "2024-08-14 12:53:19",
+    "status": "canceled",
+    "created_at": "2024-08-14 03:26:53",
+    "updated_at": "2024-12-18 08:05:01"
+  },
+  {
+    "client_name": "Cordi Payn",
+    "barber_name": "Bonni Endricci",
+    "service": ["aplicação de tintura", "massagem facial"],
+    "date": "2024-09-17 06:24:22",
+    "status": "confirmed",
+    "created_at": "2024-07-24 09:21:54",
+    "updated_at": "2025-01-22 18:18:43"
+  },
+  {
+    "client_name": "Gianni Langthorne",
+    "barber_name": "Flynn Mateescu",
+    "service": ["corte e barba", "design de sobrancelhas"],
+    "date": "2024-09-02 00:48:03",
+    "status": "confirmed",
+    "created_at": "2024-11-22 18:14:41",
+    "updated_at": "2024-05-26 22:49:14"
+  },
+  {
+    "client_name": "Dore Dunbobin",
+    "barber_name": "Sileas Hellsdon",
+    "service": ["depilação facial", "corte e barba", "aplicação de tintura"],
+    "date": "2024-08-28 12:45:00",
+    "status": "confirmed",
+    "created_at": "2024-08-04 10:22:59",
+    "updated_at": "2024-10-28 19:56:49"
+  },
+  {
+    "client_name": "Evanne Eveling",
+    "barber_name": "Joaquin Evitts",
+    "service": ["corte de cabelo masculino", "massagem facial"],
+    "date": "2024-11-26 22:10:53",
+    "status": "canceled",
+    "created_at": "2024-06-09 13:40:44",
+    "updated_at": "2024-05-28 19:58:35"
+  },
+  {
+    "client_name": "Archambault Dawley",
+    "barber_name": "Jakie Marmion",
+    "service": ["barba completa", "aplicação de tintura", "depilação facial"],
+    "date": "2024-05-19 19:43:41",
+    "status": "confirmed",
+    "created_at": "2024-12-03 06:50:45",
+    "updated_at": "2024-08-21 15:53:01"
+  },
+  {
+    "client_name": "Averell Giovanetti",
+    "barber_name": "Silva Noye",
+    "service": ["aplicação de tintura", "massagem facial"],
+    "date": "2025-02-26 00:06:41",
+    "status": "scheduled",
+    "created_at": "2024-11-09 07:37:51",
+    "updated_at": "2024-12-25 09:02:13"
+  },
+  {
+    "client_name": "Hadria Phythean",
+    "barber_name": "Aubine Sigert",
+    "service": [
+      "aplicação de tintura",
+      "corte e barba",
+      "design de sobrancelhas"
+    ],
+    "date": "2024-12-05 12:30:44",
+    "status": "confirmed",
+    "created_at": "2025-03-25 17:26:59",
+    "updated_at": "2024-05-04 07:22:43"
+  },
+  {
+    "client_name": "Carly Matveichev",
+    "barber_name": "Ali Svanetti",
+    "service": ["corte e barba", "massagem facial", "design de sobrancelhas"],
+    "date": "2024-12-24 15:55:48",
+    "status": "canceled",
+    "created_at": "2024-08-30 15:59:36",
+    "updated_at": "2024-11-13 10:30:30"
+  },
+  {
+    "client_name": "Gardy Antosik",
+    "barber_name": "Stanwood Badger",
+    "service": [
+      "massagem facial",
+      "corte de cabelo masculino",
+      "corte e barba"
+    ],
+    "date": "2024-05-12 21:35:15",
+    "status": "canceled",
+    "created_at": "2024-07-03 14:03:02",
+    "updated_at": "2025-01-23 12:27:59"
+  },
+  {
+    "client_name": "Carolyn Nilles",
+    "barber_name": "Reggie Laboune",
+    "service": ["barba completa", "corte e barba", "massagem facial"],
+    "date": "2024-11-30 10:57:10",
+    "status": "scheduled",
+    "created_at": "2024-06-29 22:10:07",
+    "updated_at": "2024-05-17 02:06:56"
+  },
+  {
+    "client_name": "Claudia McGrae",
+    "barber_name": "Kanya Halgarth",
+    "service": ["corte de cabelo masculino", "barba completa"],
+    "date": "2024-11-14 23:33:36",
+    "status": "confirmed",
+    "created_at": "2024-10-03 11:21:30",
+    "updated_at": "2024-06-03 05:47:45"
+  },
+  {
+    "client_name": "Trixy Dinsmore",
+    "barber_name": "Brietta Kilmary",
+    "service": ["tratamento capilar", "aplicação de tintura"],
+    "date": "2024-05-20 18:58:28",
+    "status": "scheduled",
+    "created_at": "2025-01-02 21:06:40",
+    "updated_at": "2024-09-01 02:07:12"
+  },
+  {
+    "client_name": "Corrie Wilcox",
+    "barber_name": "Shellie Bett",
+    "service": ["massagem facial", "depilação facial", "aplicação de tintura"],
+    "date": "2025-03-07 13:22:17",
+    "status": "scheduled",
+    "created_at": "2024-10-23 05:44:19",
+    "updated_at": "2024-06-29 00:17:02"
+  },
+  {
+    "client_name": "Margy Keig",
+    "barber_name": "Anne Etienne",
+    "service": ["corte e barba", "barba completa"],
+    "date": "2024-06-23 13:11:39",
+    "status": "canceled",
+    "created_at": "2025-01-20 00:27:09",
+    "updated_at": "2024-11-05 07:35:10"
+  },
+  {
+    "client_name": "Delainey Hourahan",
+    "barber_name": "Horton Bayman",
+    "service": ["corte de cabelo masculino"],
+    "date": "2024-04-16 22:13:02",
+    "status": "confirmed",
+    "created_at": "2024-10-04 11:52:35",
+    "updated_at": "2024-08-05 06:47:01"
+  },
+  {
+    "client_name": "Bartel Swyer-Sexey",
+    "barber_name": "Konstantine Clover",
+    "service": ["massagem facial", "corte e barba"],
+    "date": "2024-07-03 12:38:32",
+    "status": "confirmed",
+    "created_at": "2025-01-15 05:00:26",
+    "updated_at": "2024-11-10 22:32:51"
+  }
+]
