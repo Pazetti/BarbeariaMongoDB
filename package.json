@@ -1,0 +1,36 @@
+{
+  "name": "barbeariamongodb",
+  "version": "1.0.0",
+  "description": "Sistema de agendamento de barbearia",
+  "main": "api/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./api/index.js",
+    "dev": "nodemon ./api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathGueff/BarbeariaMongoDB.git"
+  },
+  "keywords": [
+    "barbearia",
+    "mongoDB",
+    "backend"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MathGueff/BarbeariaMongoDB/issues"
+  },
+  "homepage": "https://github.com/MathGueff/BarbeariaMongoDB#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "mongodb": "^6.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
