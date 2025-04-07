@@ -1,0 +1,65 @@
+// Instale a extensão REST Client para efetuar os testes
+// Teste da API REST de Municipios
+@baseURL = http://localhost:3000/api/agendamentos
+@id = 67dd9f52e9bced2ce766ba27
+
+###
+// GET - Lista todos os municipios
+GET {{baseURL}}
+Content-Type: application/json
+
+###
+// GET - Lista o municipio pelo ID
+GET {{baseURL}}
+Content-Type: application/json
+
+
+###
+// GET - Lista o municipio pela distancia 
+GET {{baseURL}}
+Content-Type: application/json
+
+
+###
+// DELETE - Remove o municipio pelo id
+DELETE {{baseURL}}/{{id}}
+Content-Type: application/json
+
+
+###
+// POST - Insere um novo municipio
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+    "client_name": "Teste",
+    "barber_name": "TESTE",
+    "service": [
+        "corte de cabelo masculino", 
+        "tratamento capilar"
+    ],
+    "date": "2025-02-19 06:43:56",
+    "status": "confirmed",
+    "created_at": "2024-05-12 02:35:02",
+    "updated_at": "2025-01-17 13:58:28"
+}
+
+
+###
+// PUT - Altera um municipio já existente
+
+PUT {{baseURL}}/{{id}}
+Content-Type: application/json
+
+{
+    "client_name": "Teste",
+    "barber_name": "TESTE",
+    "service": [
+        "corte de cabelo masculino", 
+        "tratamento capilar"
+    ],
+    "date": "2025-02-19 06:43:56",
+    "status": "confirmed",
+    "created_at": "2024-05-12 02:35:02",
+    "updated_at": "2025-01-17 13:58:28"
+}
