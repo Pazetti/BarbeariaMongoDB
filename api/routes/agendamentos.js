@@ -1,8 +1,7 @@
 import express from "express"
-/* Métodos de ação (criar, remover, editar)
 import {
-    
-} from "../controllers/municipios.js" */
+    getAgendamentos
+} from "../controllers/agendamentos.js"
  
 /* Métodos de validação
 import { 
@@ -12,9 +11,7 @@ import {
 const router = express.Router()
 
 // Get all agendamento
-router.get("/", (req,res) => {
-    res.send('teste');
-})
+router.get("/", getAgendamentos)
 
 // // Get agendamento by ID
 router.get("/:id", (req,res) => {

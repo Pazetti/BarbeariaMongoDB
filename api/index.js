@@ -15,12 +15,12 @@ app.use('/api/agendamentos', agendamentosRoutes)
 //define o favicon
 app.use('/favicon.ico', express.static('public/images/logo.png'))
 //start the server
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}!`)
-})
-
-// connectToDatabase(app).then(() => {
-//     app.listen(PORT, () => {
-//         console.log(`Servidor rodando na porta ${PORT}!`)
-//     })
+// app.listen(PORT, () => {
+//     console.log(`Servidor rodando na porta ${PORT}!`)
 // })
+
+connectToDatabase(app).then(() => {
+    app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}!`)
+    })
+})
