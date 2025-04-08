@@ -1,7 +1,7 @@
 // Instale a extensão REST Client para efetuar os testes
 // Teste da API REST de Municipios
 @baseURL = http://localhost:3000/api/agendamentos
-@id = 67dd9f52e9bced2ce766ba27
+@id = 67f4523355cbd7be2313e30c
 
 ###
 // GET - Lista todos os municipios
@@ -10,13 +10,7 @@ Content-Type: application/json
 
 ###
 // GET - Lista o municipio pelo ID
-GET {{baseURL}}
-Content-Type: application/json
-
-
-###
-// GET - Lista o municipio pela distancia 
-GET {{baseURL}}
+GET {{baseURL}}/{{id}}
 Content-Type: application/json
 
 

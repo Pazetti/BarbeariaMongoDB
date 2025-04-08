@@ -1,6 +1,10 @@
 import express from "express"
 import {
-    getAgendamentos
+    getAgendamentos,
+    getAgendamentoById,
+    createAgendamento,
+    updateAgendamento,
+    deleteAgendamento
 } from "../controllers/agendamentos.js"
  
 /* Métodos de validação
@@ -14,23 +18,15 @@ const router = express.Router()
 router.get("/", getAgendamentos)
 
 // // Get agendamento by ID
-router.get("/:id", (req,res) => {
-    res.send(req.params.id);
-})
+router.get("/:id", getAgendamentoById)
 
 // // Create new agendamento
-router.post("/", (req,res) => {
-    res.send('teste');
-})
+router.post("/", createAgendamento)
 
 // // Update agendamento
-router.put("/:id", (req,res) => {
-    res.send('teste');
-})
+router.put("/:id", updateAgendamento)
 
 // // Delete agendamento
-router.delete("/:id", (req,res) => {
-    res.send('teste');
-})
+router.delete("/:id", deleteAgendamento)
 
 export default router
