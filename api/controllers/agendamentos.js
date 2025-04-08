@@ -1,4 +1,6 @@
-// Get all municipios with optional pagination and sorting
+import { ObjectId } from "mongodb"
+
+// Get all Agendamentos
 export const getAgendamentos = async (req, res) => {
     try {
         const db = req.app.locals.db
@@ -11,39 +13,92 @@ export const getAgendamentos = async (req, res) => {
             data: agendamentos,
         })
     } catch (error) {
-        res.status(404).send('deu ruim' + error)
+        console.error("Erro ao buscar agendamentos:", error)
+        res.status(500).json({ error: true, message: "Falha ao buscar agendamentos" })
     }
 }
 
-// Get municipio by ID
-export const getMunicipioById = async (req, res) => {
+// Get agendamento by ID
+export const getAgendamentoById = async (req, res) => {
     try {
+        const {id} = req.params
+        const db = req.app.locals.db
+
+        const agendamento = await db.collection('agendamentos').findOne({
+            _id : new ObjectId(id)
+        })
+        if (!agendamento) {
+            return res.status(404).json({ error: true, message: "Agendamento não encontrado" })
+        }
+        res.status(200).json(agendamento)
+    } catch (error) {
+        console.error("Falha ao procurar por agendamento:", error)
+        res.status(500).json({ error: true, message: "Falha ao procurar por agendamento" })
+    }
+}
+
+// Create new agendamento
+export const createAgendamento = async (req, res) => {
+    try {
+        const db = req.app.locals.db
+        const 
+        {
+            client_name,
+            barber_name,
+            service,
+            date,
+            status,
+            created_at,
+            updated_at
+        } = req.body
+
+        const agendamentoExiste = await db.collection('agendamentos').findOne({date})
         
-    } catch (error) {
+        if (agendamentoExiste) {
+            res.status(409).json({
+                "error": true,
+                "message": "Já existe um agendamento para esta data"
+            })
+            return
+        }
 
+        const novoAgendamento = {
+            client_name,
+            barber_name,
+            service,
+            date,
+            status,
+            created_at,
+            updated_at
+        }
+        
+        const result = await db.collection('agendamentos').insertOne({
+            novoAgendamento
+        })
+
+        res.status(201).json({ 
+            "message": "Agendamento realizado com sucesso", 
+            "agendamento" : [
+            {_id : result.insertedId,
+            ...novoAgendamento }]
+        })
+    } catch (error) {
+        console.error("Falha ao criar um agendamento:", error)
+        res.status(500).json({ error: true, message: "Falha ao criar um agendamento" })
     }
 }
 
-// Create new municipio
-export const createMunicipio = async (req, res) => {
+// Update agendamento
+export const updateAgendamento = async (req, res) => {
     try {
-
-    } catch (error) {
-    
-    }
-}
-
-// Update municipio
-export const updateMunicipio = async (req, res) => {
-    try {
     
     } catch (error) {
 
     }
 }
 
-// Delete municipio
-export const deleteMunicipio = async (req, res) => {
+// Delete agendamento
+export const deleteAgendamento = async (req, res) => {
     try {
     
     } catch (error) {
