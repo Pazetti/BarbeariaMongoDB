@@ -1,11 +1,13 @@
 import { ObjectId } from "mongodb"
 
+const collectionAgendamentos = 'agendamentos'
+
 // Get all Agendamentos
 export const getAgendamentos = async (req, res) => {
     try {
         const db = req.app.locals.db
         const agendamentos = await db
-            .collection("agendamentos")
+            .collection(collectionAgendamentos)
             .find()
             .toArray()
 
@@ -24,12 +26,12 @@ export const getAgendamentoById = async (req, res) => {
         const {id} = req.params
         const db = req.app.locals.db
 
-        const agendamento = await db.collection('agendamentos').findOne({
+        const agendamento = await db.collection(collectionAgendamentos).findOne({
             _id : new ObjectId(id)
         })
-        if (!agendamento) {
+        if (!agendamento) 
             return res.status(404).json({ error: true, message: "Agendamento não encontrado" })
-        }
+        
         res.status(200).json(agendamento)
     } catch (error) {
         console.error("Falha ao procurar por agendamento:", error)
@@ -50,7 +52,7 @@ export const createAgendamento = async (req, res) => {
         const db = req.app.locals.db
       
         //Checando se uma data já existe
-        const existingAgendamento = await db.collection("agendamentos").findOne({ date })
+        const existingAgendamento = await db.collection(collectionAgendamentos).findOne({ date })
         if (existingAgendamento) {
           return res.status(409).json({
             error: true,
@@ -68,7 +70,7 @@ export const createAgendamento = async (req, res) => {
             updated_at
         }
       
-        const result = await db.collection("agendamentos").insertOne(newAgendamento)
+        const result = await db.collection(collectionAgendamentos).insertOne(newAgendamento)
       
         res.status(201).json({
           _id: result.insertedId,
@@ -83,58 +85,63 @@ export const createAgendamento = async (req, res) => {
 // Update agendamento
 export const updateAgendamento = async (req, res) => {
     try {
-        const {} = req.body
-    } catch (error) {
+        const {id} = req.params
+        const updateData = req.body
+        const db = req.app.locals.db
 
+        if(updateData.date){
+            const existingAgendamento = await db.collection(collectionAgendamentos).findOne({
+                date : updateData.date,
+                _id : {$ne : new ObjectId(id)}
+            })
+
+            if(existingAgendamento){
+                return  res.status(409).json({
+                    error: true,
+                    message: "Outro agendamento já está marcado para essa data",
+                })
+            }
+        }
+
+        const result = await db.collection(collectionAgendamentos).updateOne(
+            {_id : new ObjectId(id)},
+            {$set : updateData}
+        )
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ error: true, message: "Agendamento não encontrado" })
+        }
+        
+        const updatedAgendamento = await db.collection(collectionAgendamentos).findOne({
+            _id: new ObjectId(id),
+        })
+    
+        res.status(200).json(updatedAgendamento)
+    } catch (error) {
+        console.error("Problema ao atualizar um agendamento:", error)
+        res.status(500).json({ error: true, message: "Falhou ao atualizar Agendamento" })
     }
 }
 
 // Delete agendamento
 export const deleteAgendamento = async (req, res) => {
     try {
+        const {id} = req.params
         const db = req.app.locals.db
-        const 
-        {
-            client_name,
-            barber_name,
-            service,
-            date,
-            status,
-            created_at,
-            updated_at
-        } = req.body
+        const result = await db.collection(collectionAgendamentos).deleteOne({
+            _id : new ObjectId(id)
+        })
 
-        const agendamentoExiste = await db.collection('agendamentos').findOne({date})
-        
-        if (agendamentoExiste) {
-            res.status(409).json({
-                "error": true,
-                "message": "Já existe um agendamento para esta data"
+        if(result.deletedCount === 0)
+            return res.status(404).json({
+                error : true,
+                message : 'Nenhum agendamento encontrado'
             })
-            return
-        }
 
-        const agendamentoAtualizado = {
-            client_name,
-            barber_name,
-            service,
-            date,
-            status,
-            created_at,
-            updated_at
-        }
+        res.status(200).json(result)
         
-        const result = await db.collection('agendamentos').insertOne({
-            novoAgendamento
-        })
-
-        res.status(201).json({ 
-            "message": "Agendamento realizado com sucesso", 
-            "agendamento" : [
-            {_id : result.insertedId,
-            ...novoAgendamento }]
-        })
     } catch (error) {
-    
+        console.error("Problema ao deletar um agendamento:", error)
+        res.status(500).json({ error: true, message: "Falhou ao remover Agendamento" })
     }
 }
