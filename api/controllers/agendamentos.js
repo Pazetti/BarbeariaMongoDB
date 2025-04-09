@@ -40,6 +40,58 @@ export const getAgendamentoById = async (req, res) => {
 // Create new agendamento
 export const createAgendamento = async (req, res) => {
     try {
+        const { client_name,
+            barber_name,
+            service,
+            date,
+            status,
+            created_at,
+            updated_at } = req.body
+        const db = req.app.locals.db
+      
+        //Checando se uma data já existe
+        const existingAgendamento = await db.collection("agendamentos").findOne({ date })
+        if (existingAgendamento) {
+          return res.status(409).json({
+            error: true,
+            message: "Já existe um agendamento marcado para essa data",
+          })
+        }
+      
+        const newAgendamento = {
+            client_name,
+            barber_name,
+            service,
+            date,
+            status,
+            created_at,
+            updated_at
+        }
+      
+        const result = await db.collection("agendamentos").insertOne(newAgendamento)
+      
+        res.status(201).json({
+          _id: result.insertedId,
+          ...newAgendamento,
+        })
+      } catch (error) {
+        console.error("Problema ao criar um agendamento:", error)
+        res.status(500).json({ error: true, message: "Falhou ao criar Agendamento" })
+      }
+}
+
+// Update agendamento
+export const updateAgendamento = async (req, res) => {
+    try {
+        const {} = req.body
+    } catch (error) {
+
+    }
+}
+
+// Delete agendamento
+export const deleteAgendamento = async (req, res) => {
+    try {
         const db = req.app.locals.db
         const 
         {
@@ -62,7 +114,7 @@ export const createAgendamento = async (req, res) => {
             return
         }
 
-        const novoAgendamento = {
+        const agendamentoAtualizado = {
             client_name,
             barber_name,
             service,
@@ -82,25 +134,6 @@ export const createAgendamento = async (req, res) => {
             {_id : result.insertedId,
             ...novoAgendamento }]
         })
-    } catch (error) {
-        console.error("Falha ao criar um agendamento:", error)
-        res.status(500).json({ error: true, message: "Falha ao criar um agendamento" })
-    }
-}
-
-// Update agendamento
-export const updateAgendamento = async (req, res) => {
-    try {
-    
-    } catch (error) {
-
-    }
-}
-
-// Delete agendamento
-export const deleteAgendamento = async (req, res) => {
-    try {
-    
     } catch (error) {
     
     }

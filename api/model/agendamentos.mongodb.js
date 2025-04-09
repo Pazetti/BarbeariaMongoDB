@@ -973,4 +973,7 @@ const agendamentos = [
 db.agendamentos.insertMany(agendamentos)
 
 use('barbearia')
-db.agendamentos.find({date : '2022-02-19 06:43:56'})
+db.agendamentos.find({date : '2025-02-20 06:43:56'})
+
+use('barbearia')
+db.agendamentos.find({date : '2025-02-19 06:43:56'})
