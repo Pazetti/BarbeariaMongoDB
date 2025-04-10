@@ -44,14 +44,13 @@ export const getAgendamentos = async (req, res) => {
             .toArray()
 
         const total = await db.collection(collectionAgendamentos).find().count()
-        console.log(query)
         res.status(200).json({
             data : agendamentos,
             pagination : {
                 total,
                 page: Number.parseInt(page),
                 limit: Number.parseInt(limit),
-                pages: Math.ceil(total / limit)
+                pages: limit != 0 ? Math.ceil(total / limit) : 1
             }
         })
     } catch (error) {
@@ -91,7 +90,7 @@ export const createAgendamento = async (req, res) => {
       
         //Checando se uma data já existe
         const existingAgendamento = await db.collection(collectionAgendamentos).findOne({ date })
-        
+
         if (existingAgendamento) {
           return res.status(409).json({
             error: true,
