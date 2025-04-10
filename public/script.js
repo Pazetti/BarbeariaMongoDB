@@ -263,9 +263,6 @@ function initializeDashboard() {
             service: service === 'combo' ? ['corte de cabelo masculino', 'barba completa'] : [service === 'corte' ? 'corte de cabelo masculino' : 'barba completa'],
             date: `${date} ${time}:00`,
             status: 'scheduled',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            price
         };
 
         const response = await fetch('http://localhost:3000/api/agendamentos', {
@@ -328,16 +325,17 @@ function initializeAdminDashboard() {
         try {
             const appointmentsResponse = await fetch('http://localhost:3000/api/agendamentos');
             const appointments = await appointmentsResponse.json();
-            const clientsResponse = await fetch('http://localhost:3000/api/users');
-            const clients = await clientsResponse.json();
+            // const clientsResponse = await fetch('http://localhost:3000/api/users');
+            // const clients = await clientsResponse.json();
 
-            document.getElementById('totalAppointments').textContent = appointments.length;
-            document.getElementById('totalClients').textContent = clients.length;
+            document.getElementById('totalAppointments').textContent = appointments.pagination.total;
+            //document.getElementById('totalClients').textContent = clients.length;
 
             // Carregar agendamentos na tabela
             const tableBody = document.getElementById('appointmentsTableBody');
             tableBody.innerHTML = '';
-            appointments.forEach(appointment => {
+            console.log(appointments)
+            appointments.data.forEach(appointment => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${new Date(appointment.date).toLocaleString('pt-BR')}</td>
@@ -358,10 +356,9 @@ function initializeAdminDashboard() {
             document.querySelectorAll('.cancel-btn').forEach(button => {
                 button.addEventListener('click', async () => {
                     const appointmentId = button.getAttribute('data-id');
-                    await fetch(`http://localhost:3000/api/agendamentos/${appointmentId}`, {
+                    await fetch(`http://localhost:3000/api/agendamentos/${appointmentId}/cancelar`, {
                         method: 'PATCH',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ status: 'canceled', updated_at: new Date().toISOString() })
+                        headers: { 'Content-Type': 'application/json' }
                     });
                     loadStats(); // Recarregar a tabela
                 });

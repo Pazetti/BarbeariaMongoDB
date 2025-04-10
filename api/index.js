@@ -13,7 +13,7 @@ app.use('/', express.static('public'))
 //Rotas do app
 app.use('/api/agendamentos', agendamentosRoutes)
 //define o favicon
-app.use('/favicon.ico', express.static('public/images/logo.png'))
+app.use('/favicon.ico', express.static('public/images/favicon.png'))
 //start the server
 connectToDatabase(app).then(() => {
     app.listen(PORT, () => {
