@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia MongoDB - Seu Estilo, Nosso Cuidado</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Adicionando Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <!-- Logotipo clicável que redireciona para a home -->
+        <a href="index.html" class="header-logo">
+            <img src="images/logo.png" alt="Barbearia MongoDB Logo" class="logo-img">
+        </a>
+        
+        <!-- Título da página com link para a home -->
+        <h1 href="index.html" class="logo-text">Barbearia MongoDB</h1>
+
+        <nav class="header-nav">
+            <a href="login.html" class="btn btn-primary">Login / Cadastro</a>
+        </nav>
+    </header>
+
+    <!-- Seção Hero com Chamada de Marketing -->
+    <section class="hero">
+        <h2 class="hero-title">Transforme Seu Visual Hoje!</h2>
+        <p class="hero-subtitle">Corte e barba com estilo, preço justo e agendamento fácil.</p>
+        <a href="login.html" class="btn btn-cta">Agende Agora!</a>
+    </section>
+
+    <!-- Seção de Contadores (ajustada com ícones) -->
+    <section class="stats-section">
+        <h2 class="section-title">Nossos Números</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <i class="fas fa-users stat-icon"></i>
+                <h3 class="stat-number" id="clientsCount">0</h3>
+                <p class="stat-label">Clientes Satisfeitos</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-cut stat-icon"></i>
+                <h3 class="stat-number" id="haircutsCount">0</h3>
+                <p class="stat-label">Cortes de Cabelo</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-male stat-icon"></i>
+                <h3 class="stat-number" id="beardsCount">0</h3>
+                <p class="stat-label">Barbas Feitas</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-briefcase stat-icon"></i>
+                <h3 class="stat-number" id="combosCount">0</h3>
+                <p class="stat-label">Combos (Barba + Cabelo)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrossel de Imagens -->
+    <section class="testimonials">
+        <h2 class="section-title">Conheça Nosso Espaço</h2>
+        <div class="carousel">
+            <div class="carousel-slide active">
+                <img src="images/barbearia.jpg" alt="Barbeiro Cortando Cabelo" class="carousel-img">
+            </div>
+            <div class="carousel-slide">
+                <img src="images/barberia-interior.jpg" alt="Interior da Barbearia" class="carousel-img">
+            </div>
+            <div class="carousel-slide">
+                <img src="images/barberia-servico.jpg" alt="Barbeiro Atendendo Cliente" class="carousel-img">
+            </div>
+            <div class="carousel-slide">
+                <img src="images/barberia-aula.jpg" alt="Barbeiro Fazendo a Barba" class="carousel-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrossel de Depoimentos -->
+    <section class="testimonials-new">
+        <h2 class="section-title">Depoimentos dos Nossos Clientes</h2>
+        <div class="testimonials-carousel">
+            <div class="testimonials-slide active">
+                <div class="testimonial-card">
+                    <h3 class="testimonial-name">João Silva</h3>
+                    <p class="testimonial-role">Cliente Fiel</p>
+                    <p class="testimonial-quote">"Melhor corte da cidade! Sempre saio renovado."</p>
+                </div>
+            </div>
+            <div class="testimonials-slide">
+                <div class="testimonial-card">
+                    <h3 class="testimonial-name">Pedro Santos</h3>
+                    <p class="testimonial-role">Assinante Mensal</p>
+                    <p class="testimonial-quote">"Atendimento top e o combo vale cada centavo!"</p>
+                </div>
+            </div>
+            <div class="testimonials-slide">
+                <div class="testimonial-card">
+                    <h3 class="testimonial-name">Carlos Oliveira</h3>
+                    <p class="testimonial-role">Cliente Fiel</p>
+                    <p class="testimonial-quote">"A assinatura mudou minha rotina. Recomendo!"</p>
+                </div>
+            </div>
+        </div>
+        <!-- Indicadores de navegação (pontos) -->
+        <div class="testimonials-indicators">
+            <span class="indicator active" data-slide="0"></span>
+            <span class="indicator" data-slide="1"></span>
+            <span class="indicator" data-slide="2"></span>
+        </div>
+    </section>
+
+    <!-- Benefícios -->
+    <section class="benefits">
+        <h2 class="section-title">Por Que Escolher a Barbearia MongoDB?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <h3>Preço Justo</h3>
+                <p>Corte por R$40, barba por R$25 ou combo por apenas R$55!</p>
+            </div>
+            <div class="benefit-item">
+                <h3>Assinatura Exclusiva</h3>
+                <p>R$120/mês com 1 corte por semana. Economize e fique sempre em dia!</p>
+            </div>
+            <div class="benefit-item">
+                <h3>Fidelidade Premiada</h3>
+                <p>Agende 5 vezes e ganhe 1 corte grátis!</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2025 Barbearia MongoDB. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js" type="module"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92cdbef88ed5b05d',t:'MTc0NDA3MzE2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
