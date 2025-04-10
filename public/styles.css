@@ -1,0 +1,453 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #FFFFFF; /* Branco como fundo principal */
+    color: #212121; /* Preto para texto */
+    line-height: 1.6;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #f0a35a, #4A4A4A); /* Preto para cinza escuro */
+    color: #FFFFFF; /* Branco para texto */
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 60px; /* Ajuste conforme o tamanho da logo */
+    transition: transform 0.3s;
+}
+
+.logo-img:hover {
+    transform: scale(1.1);
+}
+
+.header-nav .btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+/* Botões */
+.btn {
+    background-color: #D32F2F; /* Vermelho para botões primários */
+    color: #FFFFFF; /* Branco para texto */
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #B71C1C; /* Vermelho mais escuro no hover */
+}
+
+.btn-primary { background-color: #D32F2F; } /* Vermelho */
+.btn-primary:hover { background-color: #B71C1C; }
+
+.btn-secondary { background-color: #D32F2F; } /* Azul */
+.btn-secondary:hover { background-color: #B71C1C; } /* Azul mais escuro */
+
+.btn-cta { background-color: #D32F2F; font-weight: bold; } /* Vermelho para CTA */
+.btn-cta:hover { background-color: #B71C1C; }
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: url('images/barberia-interior.jpg') no-repeat center/cover;
+    color: #FFFFFF; /* Branco para texto */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* Carrossel de Imagens (já existente) */
+.testimonials {
+    padding: 3rem 2rem;
+    text-align: center;
+    background-color: #B0BEC5; /* Cinza claro como fundo */
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #212121; /* Preto para títulos */
+}
+
+.carousel {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    display: none;
+}
+
+.carousel-slide.active {
+    display: block;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.testimonial-text {
+    font-size: 1.2rem;
+    font-style: italic;
+    padding: 1rem;
+    color: #212121; /* Preto para texto */
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(33, 33, 33, 0.5); /* Preto semi-transparente */
+    color: #FFFFFF; /* Branco para ícones */
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.carousel-prev { left: 10px; }
+.carousel-next { right: 10px; }
+
+/* Novo Carrossel de Depoimentos */
+.testimonials-new {
+    padding: 3rem 2rem;
+    text-align: center;
+    background-color: #FFFFFF; /* Fundo branco para contraste */
+}
+
+.testimonials-carousel {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.testimonials-slide {
+    display: none;
+}
+
+.testimonials-slide.active {
+    display: flex;
+    justify-content: center;
+}
+
+.testimonial-card {
+    background: #FFFFFF; /* Branco para os cards */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.testimonial-card:hover {
+    transform: scale(1.05);
+}
+
+.testimonial-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #D32F2F; /* Vermelho para o nome */
+    margin-bottom: 0.5rem;
+}
+
+.testimonial-role {
+    font-size: 1rem;
+    color: #4A4A4A; /* Cinza escuro para o papel */
+    margin-bottom: 1rem;
+}
+
+.testimonial-quote {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #212121; /* Preto para o texto */
+}
+
+/* Indicadores de Navegação */
+.testimonials-indicators {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    background-color: #B0BEC5; /* Cinza claro para indicadores inativos */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.indicator.active {
+    background-color: #D32F2F; /* Vermelho para indicador ativo */
+}
+
+/* Benefícios */
+.benefits {
+    padding: 3rem 2rem;
+    background-color: #FFFFFF; /* Branco como fundo */
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.benefit-item {
+    background: #B0BEC5; /* Cinza claro para os cards */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.benefit-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #212121; /* Preto para títulos */
+}
+
+/* Login e Cadastro */
+.auth-container {
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 70px);
+    background-color: #FFFFFF; /* Branco como fundo */
+}
+
+.auth-box {
+    background: #B0BEC5; /* Cinza claro para o formulário */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #212121; /* Preto para títulos */
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.input-field {
+    padding: 0.8rem;
+    border: 1px solid #4A4A4A; /* Cinza escuro para bordas */
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.auth-switch {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.auth-switch a {
+    color: #1976D2; /* Azul para links */
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* Dashboard */
+.dashboard-container {
+    padding: 3rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #FFFFFF; /* Branco como fundo */
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #212121; /* Preto para títulos */
+}
+
+.schedule-section, .subscription-section, .benefits-section {
+    background: #B0BEC5; /* Cinza claro para seções */
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.message {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #D32F2F; /* Vermelho para mensagens */
+}
+
+.subscription-text, .benefits-text {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #212121; /* Preto para texto */
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #4A4A4A; /* Cinza escuro para o rodapé */
+    color: #FFFFFF; /* Branco para texto */
+}
+
+/* Seção de Contadores (ajustada para ser mais bonita e menor) */
+.stats-section {
+    padding: 2rem 1rem; /* Reduzido o padding para a seção ser mais compacta */
+    text-align: center;
+    background: linear-gradient(135deg, #f0a35a, #B0BEC5); /* Gradiente sutil */
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Cards menores */
+    gap: 1rem; /* Espaço reduzido entre os cards */
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.stat-item {
+    background: #FFFFFF; /* Fundo branco para os cards */
+    padding: 1rem; /* Reduzido o padding */
+    border-radius: 10px; /* Bordas mais arredondadas */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra mais suave */
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px); /* Efeito de elevação no hover */
+}
+
+.stat-icon {
+    font-size: 1.8rem; /* Tamanho do ícone */
+    color: #D32F2F; /* Vermelho para os ícones */
+    margin-bottom: 0.5rem;
+}
+
+.stat-number {
+    font-size: 1.8rem; /* Tamanho da fonte reduzido */
+    font-weight: 700;
+    font-family: 'Georgia', serif; /* Tipografia mais elegante */
+    color: #212121; /* Preto para os números */
+    margin-bottom: 0.3rem;
+}
+
+.stat-label {
+    font-size: 0.9rem; /* Tamanho da fonte reduzido */
+    color: #4A4A4A; /* Cinza escuro para o texto */
+    font-style: italic;
+}
+
+/* Dashboard do Administrador */
+.admin-dashboard-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #FFFFFF; /* Fundo branco */
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-appointments {
+    background: #B0BEC5; /* Cinza claro para a seção */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #4A4A4A; /* Cinza escuro para bordas */
+}
+
+.appointments-table th {
+    background-color: #D32F2F; /* Vermelho para o cabeçalho */
+    color: #FFFFFF; /* Branco para texto */
+}
+
+.appointments-table td {
+    background-color: #FFFFFF; /* Branco para as linhas */
+}
+
+.appointments-table tr:hover td {
+    background-color: #f5f5f5; /* Cinza claro no hover */
+}
+
+.appointments-table .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
