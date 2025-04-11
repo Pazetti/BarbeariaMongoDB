@@ -1,7 +1,7 @@
 // Instale a extensão REST Client para efetuar os testes
 // Teste da API REST de agendamentos
 @baseURL = http://localhost:3000/api/agendamentos
-@id = 67f691efa6fbcfb61598d359
+@id = 67f931a2db327ec3d28b6269
 
 ###
 // GET - Lista todos os agendamentos (por padrão apenas 10 por página)

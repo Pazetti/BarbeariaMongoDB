@@ -979,4 +979,7 @@ use('barbearia')
 db.agendamentos.find({date : '2025-02-19 06:43:56'})
 
 use('barbearia')
+db.agendamentos.find({status : 'canceled'}).count()
+
+use('barbearia')
 db.agendamentos.drop()
