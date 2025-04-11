@@ -977,3 +977,6 @@ db.agendamentos.find({date : '2025-02-20 06:43:56'})
 
 use('barbearia')
 db.agendamentos.find({date : '2025-02-19 06:43:56'})
+
+use('barbearia')
+db.agendamentos.drop()

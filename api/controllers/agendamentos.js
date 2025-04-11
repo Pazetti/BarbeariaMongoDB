@@ -5,7 +5,7 @@ const collectionAgendamentos = 'agendamentos'
 // Get all Agendamentos
 export const getAgendamentos = async (req, res) => {
     try {
-        const {client_name, barber_name,service, date, status, sort, page = 1, limit = 10, order = "asc"} = req.query
+        const {client_name, barber_name,service, date, status, sort, page = 1, limit = 0, order = "asc"} = req.query
         const skip = (page - 1) * limit
 
         const query = {}
@@ -225,5 +225,45 @@ export const cancelarAgendamento = async (req,res) => {
     } catch (error) {
         console.error("Problema ao cancelar um agendamento:", error)
         res.status(500).json({ error: true, message: "Erro ao cancelar Agendamento" })
+    }
+}
+
+export const confirmarAgendamento = async (req,res) => {
+    try {
+        const {id} = req.params
+        const db = req.app.locals.db
+           
+        const result = await db.collection(collectionAgendamentos).updateOne(
+            {
+                _id : new ObjectId(id), 
+                status : "scheduled"
+            },
+            {
+                $set : {
+                    status : "confirmed",
+                    updated_at : new Date().toISOString()
+                }
+            }
+        )
+        if(result.modifiedCount === 0){
+            res.status(404).json({
+                error : true,
+                message : "Agendamento não encontrado ou já confirmado"
+            })
+            return
+        }
+
+        const updatedAgendamento = await db.collection(collectionAgendamentos).findOne({
+            _id : new ObjectId(id)
+        })
+
+        res.status(200).json({
+            error: false,
+            message : 'Agendamento confirmado com sucesso',
+            data : updatedAgendamento
+        })
+    } catch (error) {
+        console.error("Problema ao confirmar um agendamento:", error)
+        res.status(500).json({ error: true, message: "Erro ao confirmar Agendamento" })
     }
 }

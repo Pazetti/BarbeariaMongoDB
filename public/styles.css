@@ -61,8 +61,11 @@ body {
 .btn-primary { background-color: #D32F2F; } /* Vermelho */
 .btn-primary:hover { background-color: #B71C1C; }
 
-.btn-secondary { background-color: #D32F2F; } /* Azul */
-.btn-secondary:hover { background-color: #B71C1C; } /* Azul mais escuro */
+.btn-secondary { background-color: #D32F2F; } /* Vermelho (usado para cancelar) */
+.btn-secondary:hover { background-color: #B71C1C; }
+
+.btn-confirm { background-color: #28a745; } /* Verde para confirmar */
+.btn-confirm:hover { background-color: #218838; }
 
 .btn-cta { background-color: #D32F2F; font-weight: bold; } /* Vermelho para CTA */
 .btn-cta:hover { background-color: #B71C1C; }
@@ -317,7 +320,7 @@ body {
     color: #212121; /* Preto para títulos */
 }
 
-.schedule-section, .subscription-section, .benefits-section {
+.schedule-section, .subscription-section, .benefits-section, .appointment-overview, .client-appointments {
     background: #B0BEC5; /* Cinza claro para seções */
     padding: 2rem;
     border-radius: 8px;
@@ -341,6 +344,71 @@ body {
     font-size: 1.1rem;
     margin-bottom: 1rem;
     color: #212121; /* Preto para texto */
+}
+
+/* Card de Visão Geral do Agendamento */
+.appointment-card {
+    background: #FFFFFF; /* Fundo branco para o card */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+}
+
+.appointment-card p {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #212121;
+}
+
+.appointment-card p strong {
+    font-weight: bold;
+    color: #D32F2F; /* Vermelho para destaque */
+}
+
+.appointment-card .btn {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+/* Lista de Agendamentos do Cliente */
+.client-appointments {
+    background: #B0BEC5; /* Cinza claro para a seção */
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #4A4A4A; /* Cinza escuro para bordas */
+}
+
+.appointments-table th {
+    background-color: #D32F2F; /* Vermelho para o cabeçalho */
+    color: #FFFFFF; /* Branco para texto */
+}
+
+.appointments-table td {
+    background-color: #FFFFFF; /* Branco para as linhas */
+}
+
+.appointments-table tr:hover td {
+    background-color: #f5f5f5; /* Cinza claro no hover */
+}
+
+.appointments-table .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    margin-right: 0.5rem; /* Espaço entre botões */
 }
 
 /* Footer */
@@ -421,33 +489,21 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.appointments-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+.admin-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
-.appointments-table th,
-.appointments-table td {
-    padding: 0.8rem;
-    text-align: left;
-    border-bottom: 1px solid #4A4A4A; /* Cinza escuro para bordas */
+.admin-controls label {
+    font-size: 1rem;
+    color: #212121;
 }
 
-.appointments-table th {
-    background-color: #D32F2F; /* Vermelho para o cabeçalho */
-    color: #FFFFFF; /* Branco para texto */
-}
-
-.appointments-table td {
-    background-color: #FFFFFF; /* Branco para as linhas */
-}
-
-.appointments-table tr:hover td {
-    background-color: #f5f5f5; /* Cinza claro no hover */
-}
-
-.appointments-table .btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+.admin-controls select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #4A4A4A;
+    font-size: 1rem;
 }

@@ -5,7 +5,8 @@ import {
     createAgendamento,
     updateAgendamento,
     deleteAgendamento,
-    cancelarAgendamento
+    cancelarAgendamento,
+    confirmarAgendamento
 } from "../controllers/agendamentos.js"
  
 /* Métodos de validação
@@ -27,7 +28,11 @@ router.post("/", createAgendamento)
 // // Update agendamento
 router.put("/:id", updateAgendamento)
 
+// Patch status de um agendamento para cancelado
 router.patch("/:id/cancelar", cancelarAgendamento)
+
+// Patch status de um agendamento para confirmado
+router.patch("/:id/confirmar", confirmarAgendamento)
 
 // // Delete agendamento
 router.delete("/:id", deleteAgendamento)
