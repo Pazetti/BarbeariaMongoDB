@@ -5,7 +5,7 @@ const collectionAgendamentos = 'agendamentos'
 // Get all Agendamentos
 export const getAgendamentos = async (req, res) => {
     try {
-        const {client_name, barber_name,service, date, status, sort, page = 1, limit = 0, order = "asc"} = req.query
+        const {client_name, barber_name,service, date, status, sort, page = 1, limit = 10, order = "asc"} = req.query
         const skip = (page - 1) * limit
 
         const query = {}
@@ -94,7 +94,7 @@ export const createAgendamento = async (req, res) => {
         if (existingAgendamento) {
           return res.status(409).json({
             error: true,
-            message: "Já existe um agendamento marcado para essa data",
+            message: "Um agendamento já foi marcado para essa data",
           })
         }
       
