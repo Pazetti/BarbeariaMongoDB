@@ -1,4 +1,5 @@
 // auth.js
+import { fetchWithErrorHandling } from './script.js';
 
 // Módulo de Autenticação
 function initializeAuth() {

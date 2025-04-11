@@ -19,6 +19,7 @@ if (document.querySelector('.carousel') || document.querySelector('.testimonials
     // Carregar o script do carrossel e contador (index.html)
     const script = document.createElement('script');
     script.src = 'carousel.js';
+    script.type = 'module'
     document.body.appendChild(script);
 }
 
@@ -26,6 +27,7 @@ if (document.querySelector('.auth-container')) {
     // Carregar o script de autenticação (login.html)
     const script = document.createElement('script');
     script.src = 'auth.js';
+    script.type = 'module'
     document.body.appendChild(script);
 }
 
@@ -33,6 +35,7 @@ if (document.querySelector('.dashboard-container')) {
     // Carregar o script do dashboard de cliente (dashboard.html)
     const script = document.createElement('script');
     script.src = 'dashboard.js';
+    script.type = 'module'
     document.body.appendChild(script);
 }
 

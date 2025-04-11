@@ -61,22 +61,22 @@ function initializeAdminDashboard() {
             document.querySelectorAll('.confirm-btn').forEach(button => {
                 button.addEventListener('click', async () => {
                     const appointmentId = button.getAttribute('data-id');
+                    const row = button.closest('tr');
+                    
                     try {
-                        await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}/conf`, {
+                        row.style.opacity = '0.9'; // Feedback visual
+                        await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}/confirmar`, {
                             method: 'PATCH',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: { 'Content-Type': 'application/json' }
                         });
-                        loadStats(); // Recarregar a tabela
+                        
+                        // Atualização direta do DOM (sem recarregar tudo)
+                        row.cells[4].textContent = 'confirmed'; // Status
+                        row.cells[5].innerHTML = '-'; // Ações
                     } catch (error) {
-                        // Simulação de confirmação
-                        simulatedAppointments = simulatedAppointments.map(appointment => {
-                            if (appointment._id === appointmentId) {
-                                return { ...appointment, status: 'confirmed', updated_at: new Date().toISOString() };
-                            }
-                            return appointment;
-                        });
-                        localStorage.setItem('simulatedAppointments', JSON.stringify(simulatedAppointments));
-                        loadStatsSimulated(); // Recarregar a tabela com simulação
+                        console.error("Falha ao confirmar:", error);
+                        // Rollback visual se necessário
+                        row.style.opacity = '1';
                     }
                 });
             });
@@ -85,22 +85,22 @@ function initializeAdminDashboard() {
             document.querySelectorAll('.cancel-btn').forEach(button => {
                 button.addEventListener('click', async () => {
                     const appointmentId = button.getAttribute('data-id');
+                    const row = button.closest('tr');
+                    
                     try {
+                        row.style.opacity = '0.9'; // Feedback visual
                         await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}/cancelar`, {
                             method: 'PATCH',
                             headers: { 'Content-Type': 'application/json' }
                         });
-                        loadStats(); // Recarregar a tabela
+                        
+                        // Atualização direta do DOM (sem recarregar tudo)
+                        row.cells[4].textContent = 'canceled'; // Status
+                        row.cells[5].innerHTML = '-'; // Ações
                     } catch (error) {
-                        // Simulação de cancelamento
-                        simulatedAppointments = simulatedAppointments.map(appointment => {
-                            if (appointment._id === appointmentId) {
-                                return { ...appointment, status: 'canceled', updated_at: new Date().toISOString() };
-                            }
-                            return appointment;
-                        });
-                        localStorage.setItem('simulatedAppointments', JSON.stringify(simulatedAppointments));
-                        loadStatsSimulated(); // Recarregar a tabela com simulação
+                        console.error("Falha ao confirmar:", error);
+                        // Rollback visual se necessário
+                        row.style.opacity = '1';
                     }
                 });
             });

@@ -5,7 +5,7 @@ const collectionAgendamentos = 'agendamentos'
 // Get all Agendamentos
 export const getAgendamentos = async (req, res) => {
     try {
-        const {client_name, barber_name,service, date, status, sort, page = 1, limit = 0, order = "asc"} = req.query
+        const {client_name, barber_name,service, date, status, sort, page = 1, limit = 10, order = "asc"} = req.query
         const skip = (page - 1) * limit
 
         const query = {}
@@ -94,7 +94,7 @@ export const createAgendamento = async (req, res) => {
         if (existingAgendamento) {
           return res.status(409).json({
             error: true,
-            message: "Já existe um agendamento marcado para essa data",
+            message: "Um agendamento já foi marcado para essa data",
           })
         }
       
@@ -188,10 +188,15 @@ export const deleteAgendamento = async (req, res) => {
     }
 }
 
-export const cancelarAgendamento = async (req,res) => {
+export const cancelarAgendamento = async (req,res) => mudarStatusAgendamento(req,res,"canceled")
+
+export const confirmarAgendamento = async (req,res) => mudarStatusAgendamento(req,res,"confirmed")
+
+const mudarStatusAgendamento = async (req, res, newStatus) => {
     try {
         const {id} = req.params
         const db = req.app.locals.db
+        const text = newStatus == 'canceled' ? 'cancelado' : 'confirmado' 
            
         const result = await db.collection(collectionAgendamentos).updateOne(
             {
@@ -200,7 +205,7 @@ export const cancelarAgendamento = async (req,res) => {
             },
             {
                 $set : {
-                    status : "canceled",
+                    status : newStatus,
                     updated_at : new Date().toISOString()
                 }
             }
@@ -208,7 +213,7 @@ export const cancelarAgendamento = async (req,res) => {
         if(result.modifiedCount === 0){
             res.status(404).json({
                 error : true,
-                message : "Agendamento não encontrado ou já cancelado"
+                message : `Agendamento não encontrado ou já ${text}`
             })
             return
         }
@@ -219,51 +224,11 @@ export const cancelarAgendamento = async (req,res) => {
 
         res.status(200).json({
             error: false,
-            message : 'Agendamento cancelado com sucesso',
+            message : `Agendamento ${text} com sucesso`,
             data : updatedAgendamento
         })
     } catch (error) {
-        console.error("Problema ao cancelar um agendamento:", error)
-        res.status(500).json({ error: true, message: "Erro ao cancelar Agendamento" })
-    }
-}
-
-export const confirmarAgendamento = async (req,res) => {
-    try {
-        const {id} = req.params
-        const db = req.app.locals.db
-           
-        const result = await db.collection(collectionAgendamentos).updateOne(
-            {
-                _id : new ObjectId(id), 
-                status : "scheduled"
-            },
-            {
-                $set : {
-                    status : "confirmed",
-                    updated_at : new Date().toISOString()
-                }
-            }
-        )
-        if(result.modifiedCount === 0){
-            res.status(404).json({
-                error : true,
-                message : "Agendamento não encontrado ou já confirmado"
-            })
-            return
-        }
-
-        const updatedAgendamento = await db.collection(collectionAgendamentos).findOne({
-            _id : new ObjectId(id)
-        })
-
-        res.status(200).json({
-            error: false,
-            message : 'Agendamento confirmado com sucesso',
-            data : updatedAgendamento
-        })
-    } catch (error) {
-        console.error("Problema ao confirmar um agendamento:", error)
-        res.status(500).json({ error: true, message: "Erro ao confirmar Agendamento" })
+        console.error(`Agendamento não ${text}, ocorreu um problema ao alterar o status, : `, error)
+        res.status(500).json({ error: true, message: `Agendamento não ${text}, ocorreu um erro ao alterar status, ` })
     }
 }
