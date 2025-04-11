@@ -11,40 +11,52 @@
         <a href="index.html" class="header-logo">
             <img src="images/logo.png" alt="Barbearia MongoDB Logo" class="logo-img">
         </a>
-        <h1 href="index.html" class="logo-text">Barbearia MongoDB - Admin</h1>
+        <h1 href="index.html" class="logo-text">Barbearia MongoDB</h1>
         <nav class="header-nav">
             <button id="logoutBtn" class="btn btn-primary">Sair</button>
         </nav>
     </header>
 
     <section class="admin-dashboard-container">
-        <h2 class="dashboard-title">Dashboard do Administrador</h2>
-        <p>Bem-vindo, <span id="adminName">Administrador</span>!</p>
+        <h2 class="dashboard-title">Bem-vindo, <span id="adminName"></span>!</h2>
 
-        <!-- Resumo de Estatísticas -->
+        <!-- Estatísticas -->
         <div class="admin-stats">
             <div class="stat-item">
-                <h3 class="stat-number" id="totalAppointments">0</h3>
-                <p class="stat-label">Total de Agendamentos</p>
+                <span class="stat-icon">📅</span>
+                <div class="stat-number" id="totalAppointments">0</div>
+                <div class="stat-label">Total de Agendamentos</div>
             </div>
             <div class="stat-item">
-                <h3 class="stat-number" id="totalClients">0</h3>
-                <p class="stat-label">Total de Clientes</p>
+                <span class="stat-icon">👥</span>
+                <div class="stat-number" id="totalClients">0</div>
+                <div class="stat-label">Total de Clientes</div>
             </div>
         </div>
 
-        <!-- Tabela de Agendamentos Recentes -->
+        <!-- Lista de Agendamentos -->
         <div class="admin-appointments">
-            <h3 class="section-title">Agendamentos Recentes</h3>
+            <h3 class="section-title">Gerenciar Agendamentos</h3>
+            <div class="admin-controls">
+                <label for="statusFilter">Filtrar por Status:</label>
+                <select id="statusFilter" class="input-field">
+                    <option value="all">Todos</option>
+                    <option value="scheduled">Agendado</option>
+                    <option value="confirmed">Confirmado</option>
+                    <option value="canceled">Cancelado</option>
+                </select>
+                <button id="refreshBtn" class="btn btn-primary">Recarregar</button>
+            </div>
+            <p id="loadingMessage" style="display: none;">Carregando...</p>
             <table class="appointments-table">
                 <thead>
                     <tr>
-                        <th>Data</th>
+                        <th>Data e Horário</th>
                         <th>Cliente</th>
                         <th>Serviço</th>
                         <th>Barbeiro</th>
                         <th>Status</th>
-                        <th>Ação</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="appointmentsTableBody">

@@ -8,52 +8,96 @@
 </head>
 <body>
     <header class="header">
-        <!-- Logotipo clicável -->
         <a href="index.html" class="header-logo">
             <img src="images/logo.png" alt="Barbearia MongoDB Logo" class="logo-img">
         </a>
-        
-        <!-- Título da página com link para a home -->
         <h1 href="index.html" class="logo-text">Barbearia MongoDB</h1>
-        
         <nav class="header-nav">
-            <button id="logoutBtn" class="btn btn-secondary">Sair</button>
+            <button id="logoutBtn" class="btn btn-primary">Sair</button>
         </nav>
     </header>
 
-    <main class="dashboard-container">
+    <section class="dashboard-container">
         <h2 class="dashboard-title">Bem-vindo, <span id="userName"></span>!</h2>
 
         <!-- Sistema de Agendamento -->
-        <section class="schedule-section">
-            <h3 class="section-title">Agendar Serviço</h3>
+        <div class="schedule-section">
+            <h3 class="section-title">Agendar um Horário</h3>
             <form id="scheduleForm" class="schedule-form">
-                <select id="serviceSelect" class="input-field">
-                    <option value="corte">Corte de Cabelo (R$ 40)</option>
-                    <option value="barba">Barbear (R$ 25)</option>
-                    <option value="combo">Combo Corte + Barba (R$ 55)</option>
+                <label for="serviceSelect">Serviço:</label>
+                <select id="serviceSelect" class="input-field" required>
+                    <option value="corte">Corte de Cabelo (R$40)</option>
+                    <option value="barba">Barba (R$25)</option>
+                    <option value="combo">Combo (Corte + Barba) (R$55)</option>
                 </select>
+
+                <label for="barberSelect">Barbeiro:</label>
+                <select id="barberSelect" class="input-field" required>
+                    <option value="João Silva">João Silva</option>
+                    <option value="Carlos Mendes">Carlos Mendes</option>
+                    <option value="Pedro Almeida">Pedro Almeida</option>
+                </select>
+
+                <label for="dateInput">Data:</label>
                 <input type="date" id="dateInput" class="input-field" required>
-                <select id="timeSelect" class="input-field"></select>
+
+                <label for="timeSelect">Horário:</label>
+                <select id="timeSelect" class="input-field" required></select>
+
                 <button type="submit" class="btn btn-primary">Agendar</button>
             </form>
             <p id="scheduleMessage" class="message"></p>
-        </section>
+        </div>
+
+        <!-- Visão Geral do Agendamento -->
+        <div class="appointment-overview" id="appointmentOverview" style="display: none;">
+            <h3 class="section-title">Visão Geral do Último Agendamento</h3>
+            <div class="appointment-card">
+                <p><strong>Data:</strong> <span id="appointmentDate"></span></p>
+                <p><strong>Horário:</strong> <span id="appointmentTime"></span></p>
+                <p><strong>Barbeiro:</strong> <span id="appointmentBarber"></span></p>
+                <p><strong>Serviço:</strong> <span id="appointmentService"></span></p>
+                <button id="cancelAppointmentBtn" class="btn btn-secondary">Cancelar Agendamento</button>
+            </div>
+        </div>
+
+        <!-- Lista de Agendamentos do Cliente -->
+        <div class="client-appointments">
+            <h3 class="section-title">Meus Agendamentos</h3>
+            <table class="appointments-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Barbeiro</th>
+                        <th>Serviço</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="clientAppointmentsTableBody">
+                    <!-- Preenchido dinamicamente via JavaScript -->
+                </tbody>
+            </table>
+        </div>
 
         <!-- Assinatura -->
-        <section class="subscription-section">
-            <h3 class="section-title">Assinatura Mensal</h3>
-            <p class="subscription-text">Por apenas R$120/mês, tenha 1 corte por semana!</p>
-            <button id="subscribeBtn" class="btn btn-cta">Assinar Agora</button>
-            <p id="subscriptionStatus" class="message"></p>
-        </section>
+        <div class="subscription-section">
+            <h3 class="section-title">Assinatura</h3>
+            <p class="subscription-text" id="subscriptionStatus">Você não é assinante. Faça 5 agendamentos para ganhar um corte grátis!</p>
+            <button id="subscribeBtn" class="btn btn-cta">Tornar-se Assinante</button>
+        </div>
 
         <!-- Benefícios -->
-        <section class="benefits-section">
-            <h3 class="section-title">Seu Progresso</h3>
-            <p class="benefits-text">Agende 5 vezes e ganhe 1 grátis! Progresso: <span id="progress">0/5</span></p>
-        </section>
-    </main>
+        <div class="benefits-section">
+            <h3 class="section-title">Benefícios</h3>
+            <p class="benefits-text">Progresso para o próximo corte grátis: <span id="progress">0/5</span></p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2025 Barbearia MongoDB. Todos os direitos reservados.</p>
+    </footer>
 
     <script src="script.js" type="module"></script>
 </body>
