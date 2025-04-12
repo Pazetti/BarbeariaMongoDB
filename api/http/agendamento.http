@@ -1,7 +1,7 @@
 // Instale a extensão REST Client para efetuar os testes
 // Teste da API REST de agendamentos
 @baseURL = http://localhost:3000/api/agendamentos
-@id = 67f931a2db327ec3d28b6269
+@id = 67faf1d9114330960916e50d
 
 ###
 // GET - Lista todos os agendamentos (por padrão apenas 10 por página)
@@ -20,9 +20,11 @@ Content-Type: application/json
 {
     "client_name": "Eduardo Louis",
     "barber_name": "Louisa Mendes",
-    "service": [
-        "corte de cabelo masculino"
+    "services": [
+        {"name" : "corte de cabelo masculino"},
+        {"price" : 10.00}
     ],
+    "total_price" : 10.00,
     "date": "2024-06-30 18:00:00",
     "status": "scheduled",
     "created_at": "2024-05-12 02:35:02",
