@@ -3,7 +3,7 @@
 // Módulo do Dashboard de Cliente
 function initializeDashboard() {
     const currentUser = JSON.parse(localStorage.getItem('user'));
-    if (!currentUser) window.location.href = 'login.html';
+    //if (!currentUser) window.location.href = 'login.html';
 
     // Configurar informações do usuário
     document.getElementById('userName').textContent = currentUser.name;
