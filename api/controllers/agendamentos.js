@@ -2,10 +2,33 @@ import { ObjectId } from "mongodb"
 
 const collectionAgendamentos = 'agendamentos'
 
+export const getTotalAgendamentos = async (req,res) => {
+    try {
+        const db = req.app.locals.db;
+        const total = await db.collection(collectionAgendamentos).find().count()
+
+        res.status(200).json({total})
+    } catch (error) {
+        console.error("Erro ao contar agendamentos:", error)
+        res.status(500).json({ error: true, message: "Falha ao contar agendamentos" })
+    }
+}
+
 // Get all Agendamentos
 export const getAgendamentos = async (req, res) => {
     try {
-        const {client_name, barber_name,service, date, status, sort, page = 1, limit = 20, order = "asc"} = req.query
+        const {
+            client_name, 
+            barber_name,
+            service, 
+            start_date,
+            end_date, 
+            status, 
+            sort, 
+            page = 1, 
+            limit = 20, 
+            order = "asc"
+        } = req.query
         const skip = (page - 1) * limit
 
         const query = {}
@@ -15,12 +38,18 @@ export const getAgendamentos = async (req, res) => {
         if(barber_name){
             query.barber_name = {$regex : barber_name, $options : "i"}
         }
-        if(service){
-            query.service = {$in : [service]}
+        if(service) {
+            query["services.name"] = { $regex: service, $options: "i" };
         }
-        if(date){
-            query.date = date
-        }
+        if (start_date && end_date) {
+            const start = start_date + " 00:00:00";
+            const end = end_date + " 23:59:59";
+          
+            query.date = {
+              $gte: start,
+              $lte: end
+            };
+          }
         if(status) {
             query.status = {$regex : status, $options : "i"}
         }
@@ -33,7 +62,7 @@ export const getAgendamentos = async (req, res) => {
             //Por padrão ordena por data da mais p
             sortOptions.date = order.toLowerCase() === "desc" ? -1 : 1
         }
-
+        console.log(query)
         const db = req.app.locals.db
         const agendamentos = await db
             .collection(collectionAgendamentos)
@@ -43,7 +72,7 @@ export const getAgendamentos = async (req, res) => {
             .limit(Number.parseInt(limit))
             .toArray()
 
-        const total = await db.collection(collectionAgendamentos).find().count()
+        const total = await db.collection(collectionAgendamentos).find(query).count()
         res.status(200).json({
             data : agendamentos,
             pagination : {

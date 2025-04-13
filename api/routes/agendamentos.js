@@ -1,5 +1,6 @@
 import express from "express"
 import {
+    getTotalAgendamentos,
     getAgendamentos,
     getAgendamentoById,
     createAgendamento,
@@ -16,8 +17,11 @@ import {
 
 const router = express.Router()
 
-// Get all agendamento
+// Get all agendamentos
 router.get("/", getAgendamentos)
+
+//Get count agendamentos
+router.get("/total", getTotalAgendamentos)
 
 // // Get agendamento by ID
 router.get("/:id", getAgendamentoById)

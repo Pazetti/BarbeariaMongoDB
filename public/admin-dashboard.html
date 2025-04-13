@@ -37,16 +37,69 @@
         <!-- Lista de Agendamentos -->
         <div class="admin-appointments">
             <h3 class="section-title">Gerenciar Agendamentos</h3>
-            <div class="admin-controls">
-                <label for="statusFilter">Filtrar por Status:</label>
-                <select id="statusFilter" class="input-field">
-                    <option value="all">Todos</option>
-                    <option value="scheduled">Agendado</option>
-                    <option value="confirmed">Confirmado</option>
-                    <option value="canceled">Cancelado</option>
-                </select>
-                <button id="refreshBtn" class="btn btn-primary">Recarregar</button>
+            
+            <!-- Filtros reorganizados em uma linha -->
+            <div class="filters-container">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label for="statusFilter">Status:</label>
+                        <select id="statusFilter" class="input-field-filter">
+                            <option value="all">Todos</option>
+                            <option value="scheduled">Agendado</option>
+                            <option value="confirmed">Confirmado</option>
+                            <option value="canceled">Cancelado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="filterType">Filtrar por:</label>
+                        <select id="filterType" class="input-field-filter">
+                            <option value="client_name">Nome do Cliente</option>
+                            <option value="barber_name">Nome do Barbeiro</option>
+                            <option value="service">Tipo de Serviço</option>
+                        </select>
+                        <input type="text" id="filterInput" class="input-field-filter" placeholder="Digite o nome do cliente...">
+                    </div>
+                    
+                    <div class="filter-group date-filter-group">
+                        <label>Período:</label>
+                        <div class="date-inputs">
+                            <input type="date" id="startDateFilter" class="input-field-filter date-input">
+                            <span>até</span>
+                            <input type="date" id="endDateFilter" class="input-field-filter date-input">
+                            <button id="todayBtn" class="btn btn-small">Hoje</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group checkbox-container">
+                        <input type="checkbox" id="singleDayFilter">
+                        <label for="singleDayFilter">Dia específico</label>
+                    </div>
+                </div>
+                
+                <div class="filters-actions">
+                    <div class="filter-group items-per-page">
+                        <label for="itemsPerPage">Itens por página:</label>
+                        <select id="itemsPerPage" class="input-field-filter">
+                            <option value="10">10</option>
+                            <option value="20" selected>20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="clearFiltersBtn" class="btn btn-secondary">Limpar Filtros</button>
+                        <button id="refreshBtn" class="btn btn-primary">Recarregar</button>
+                    </div>
+                </div>
             </div>
+            
+            <div class="results-info">
+                <p id="resultsCount">Exibindo 0 de 0 agendamentos</p>
+            </div>
+            
             <p id="loadingMessage" style="display: none;">Carregando...</p>
             <table class="appointments-table">
                 <thead>
@@ -63,6 +116,14 @@
                     <!-- Preenchido dinamicamente via JavaScript -->
                 </tbody>
             </table>
+            
+            <div class="pagination-container">
+                <button id="prevPageBtn" class="btn btn-pagination">&laquo; Anterior</button>
+                <div id="paginationNumbers" class="pagination-numbers">
+                    <!-- Preenchido dinamicamente via JavaScript -->
+                </div>
+                <button id="nextPageBtn" class="btn btn-pagination">Próximo &raquo;</button>
+            </div>
         </div>
     </section>
 
