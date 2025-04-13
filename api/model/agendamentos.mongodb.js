@@ -12,4 +12,20 @@ use('barbearia')
 db.agendamentos.find({status : 'scheduled'}).count()
 
 use('barbearia')
+db.agendamentos.find({
+    $and : [
+        {date : {$lte : '2024-07-22 23:59:59'}},
+        {date : {$gte : '2024-07-22 00:00:00'}},
+    ]
+})
+
+use('barbearia')
+db.agendamentos.find({
+    $and : [
+        {date : {$lte : '2025-07-22 23:59:59'}},
+        {date : {$gte : '2024-07-22 00:00:00'}},
+    ]
+})
+
+use('barbearia')
 db.agendamentos.drop()
