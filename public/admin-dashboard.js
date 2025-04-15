@@ -86,6 +86,8 @@ function initializeAdminDashboard() {
         filters.end_date = endDateFilter.value
       }
 
+      //filters.sort = 'client_name'
+
       // Montar query string com URLSearchParams
       const queryString = new URLSearchParams(filters).toString()
       const appointmentsUrl = `http://localhost:3000/api/agendamentos${queryString ? "?" + queryString : ""}`
@@ -121,14 +123,10 @@ function initializeAdminDashboard() {
       // Carregar agendamentos na tabela
       appointments.data.forEach((appointment) => {
         const row = document.createElement("tr")
-        const services_name = []
-        appointment.services.forEach((element) => {
-          services_name.push(element.name)
-        })
         row.innerHTML = `
           <td>${new Date(appointment.date).toLocaleString("pt-BR")}</td>
           <td>${appointment.client_name}</td>
-          <td>${services_name.join(", ")}</td>
+          <td>${appointment.services.map(service => service.name).join(", ")}</td>
           <td>${appointment.barber_name}</td>
           <td class='status-${appointment.status}'>${statusLabels[appointment.status] || appointment.status}</td>
           <td class='appointments-table-actions'>
@@ -136,6 +134,8 @@ function initializeAdminDashboard() {
               appointment.status === "scheduled"
                 ? `<button class="btn btn-confirm confirm-btn" data-id="${appointment._id}">Confirmar</button>
                    <button class="btn btn-secondary cancel-btn" data-id="${appointment._id}">Cancelar</button>`
+                : appointment.status === "canceled" 
+                ? `<button class="btn btn-secondary delete-btn" data-id="${appointment._id}">Deletar</button>`
                 : "-"
             }
           </td>
@@ -152,6 +152,25 @@ function initializeAdminDashboard() {
       document.querySelectorAll(".cancel-btn").forEach((button) => {
         button.addEventListener("click", () => clickActionButton(button, "canceled"))
       })
+
+      document.querySelectorAll('.delete-btn').forEach((button) => {
+        button.addEventListener("click", async () => {
+          const appointmentId = button.getAttribute("data-id")
+          const row = button.closest("tr")
+          try {
+            row.style.opacity = "0.4" // Feedback visual
+            await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}`, {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+            })
+          } catch (error) {
+            console.error(`Falha ao deletar:`, error)
+            // Rollback visual se necessário
+            row.style.opacity = "1"
+          }
+        })
+      })
+
     } catch (error) {
       console.log("Não foi possível exibir dados da API " + error)
       // Se o backend não estiver disponível, usar a simulação
