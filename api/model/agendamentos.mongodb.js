@@ -29,3 +29,8 @@ db.agendamentos.find({
 
 use('barbearia')
 db.agendamentos.drop()
+
+use('barbearia')
+db.agendamentos.updateMany({client_name :'Isabela Cardoso'},
+    {$set : {status : 'scheduled'}}
+)

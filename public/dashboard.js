@@ -1,9 +1,11 @@
+import { fetchWithErrorHandling } from './script.js';
+
 // dashboard.js
 
 // Módulo do Dashboard de Cliente
 function initializeDashboard() {
     const currentUser = JSON.parse(localStorage.getItem('user'));
-    //if (!currentUser) window.location.href = 'login.html';
+    if (!currentUser) window.location.href = 'login.html';
 
     // Configurar informações do usuário
     document.getElementById('userName').textContent = currentUser.name;
@@ -25,27 +27,40 @@ function initializeDashboard() {
     const appointmentTime = document.getElementById('appointmentTime');
     const appointmentBarber = document.getElementById('appointmentBarber');
     const appointmentService = document.getElementById('appointmentService');
+    const appointmentStatus = document.getElementById('appointmentStatus');
     const cancelAppointmentBtn = document.getElementById('cancelAppointmentBtn');
 
     // Elementos da lista de agendamentos do cliente
     const clientAppointmentsTableBody = document.getElementById('clientAppointmentsTableBody');
 
-    // Carregar último agendamento do localStorage, se existir
-    let lastAppointment = JSON.parse(localStorage.getItem('lastAppointment')) || null;
-    let lastAppointmentId = localStorage.getItem('lastAppointmentId') || null;
-
     // Simulação de agendamentos (armazenados no localStorage para persistência temporária)
     let simulatedAppointments = JSON.parse(localStorage.getItem('simulatedAppointments')) || [];
 
+    let lastAppointment;
+    
+    const statusLabels = {
+        canceled: "Cancelado",
+        confirmed: "Confirmado",
+        scheduled: "Agendado",
+    }
+
     // Função para exibir o último agendamento no card
-    function displayLastAppointment() {
+    async function displayLastAppointment() {
+        const response = await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos?client_name=${currentUser.name}&status=scheduled&status=confirmed`)
+        lastAppointment = response.data[0]
         if (lastAppointment) {
+            if(lastAppointment.status == 'scheduled')
+                cancelAppointmentBtn.style.display = 'block'
+            else                
+                cancelAppointmentBtn.style.display = 'none'
             appointmentOverview.style.display = 'block';
             const [date, time] = lastAppointment.date.split(' ');
-            appointmentDate.textContent = new Date(date).toLocaleDateString('pt-BR');
+            appointmentDate.textContent = date.split('-').reverse().join('/');
             appointmentTime.textContent = time;
             appointmentBarber.textContent = lastAppointment.barber_name;
-            appointmentService.textContent = lastAppointment.service.join(', ');
+            appointmentService.textContent = lastAppointment.services.map(service => service.name).join(", ");
+            appointmentStatus.textContent = statusLabels[lastAppointment.status]
+            appointmentStatus.classList.add("status-"+lastAppointment.status)
         } else {
             appointmentOverview.style.display = 'none';
         }
@@ -54,21 +69,19 @@ function initializeDashboard() {
     // Função para carregar e exibir todos os agendamentos do cliente
     async function loadClientAppointments() {
         try {
-            const appointments = await fetchWithErrorHandling('http://localhost:3000/api/agendamentos');
-            // Filtrar agendamentos do cliente logado
-            const clientAppointments = appointments.filter(appointment => appointment.client_name === currentUser.name);
 
+            const appointments = await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos?client_name=${currentUser.name}`);
             // Atualizar a tabela de agendamentos
             clientAppointmentsTableBody.innerHTML = '';
-            clientAppointments.forEach(appointment => {
+            appointments.data.forEach(appointment => {
                 const [date, time] = appointment.date.split(' ');
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${new Date(date).toLocaleDateString('pt-BR')}</td>
+                    <td>${date.split('-').reverse().join('/')}</td>
                     <td>${time}</td>
                     <td>${appointment.barber_name}</td>
-                    <td>${appointment.service.join(', ')}</td>
-                    <td>${appointment.status}</td>
+                    <td>${appointment.services.map(service => service.name).join(", ")}</td>
+                    <td class='status-${appointment.status}'>${statusLabels[appointment.status] || appointment.status}</td>
                     <td>
                         ${appointment.status === 'scheduled' ? 
                             `<button class="btn btn-secondary cancel-client-btn" data-id="${appointment._id}">Cancelar</button>` : 
@@ -83,18 +96,15 @@ function initializeDashboard() {
                 button.addEventListener('click', async () => {
                     const appointmentId = button.getAttribute('data-id');
                     try {
-                        await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}`, {
+                        await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}/cancelar`, {
                             method: 'PATCH',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ status: 'canceled', updated_at: new Date().toISOString() })
+                            headers: { 'Content-Type': 'application/json' }
                         });
 
                         // Se o agendamento cancelado for o último, atualizar o card de visão geral
-                        if (appointmentId === lastAppointmentId) {
+                        if (appointmentId === lastAppointment._id) {
+                            appointmentStatus.classList.remove(`status-${lastAppointment.status}`)
                             lastAppointment = null;
-                            lastAppointmentId = null;
-                            localStorage.removeItem('lastAppointment');
-                            localStorage.removeItem('lastAppointmentId');
                             displayLastAppointment();
                         }
 
@@ -128,6 +138,7 @@ function initializeDashboard() {
                 });
             });
         } catch (error) {
+            console.log("Erro: " + error)
             // Se o backend não estiver disponível, usar a simulação
             loadClientAppointmentsSimulated();
         }
@@ -210,14 +221,10 @@ function initializeDashboard() {
         // Obter agendamentos existentes para a data e barbeiro selecionados
         let existingAppointments = [];
         try {
-            const appointments = await fetchWithErrorHandling('http://localhost:3000/api/agendamentos');
-            existingAppointments = appointments.filter(appointment => {
-                const [appointmentDate, appointmentTime] = appointment.date.split(' ');
-                return appointmentDate === selectedDate &&
-                       appointment.barber_name === selectedBarber &&
-                       (appointment.status === 'scheduled' || appointment.status === 'confirmed');
-            });
+            const url = `http://localhost:3000/api/agendamentos?barber_name=${selectedBarber}&start_date=${selectedDate}&end_date=${selectedDate}&status=scheduled`
+            existingAppointments = await fetchWithErrorHandling(url);
         } catch (error) {
+            console.log(error)
             // Se o backend não estiver disponível, usar a simulação
             existingAppointments = simulatedAppointments.filter(appointment => {
                 const [appointmentDate, appointmentTime] = appointment.date.split(' ');
@@ -228,7 +235,7 @@ function initializeDashboard() {
         }
 
         // Extrair os horários ocupados
-        const occupiedTimes = existingAppointments.map(appointment => {
+        const occupiedTimes = existingAppointments.data.map(appointment => {
             const [, time] = appointment.date.split(' ');
             return time.slice(0, 5); // Pegar apenas "HH:MM"
         });
@@ -271,12 +278,13 @@ function initializeDashboard() {
 
     scheduleForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const service = document.getElementById('serviceSelect').value;
         const barber = barberSelect.value;
         const date = dateInput.value;
         const time = timeSelect.value;
-        const price = service === 'corte' ? 40 : service === 'barba' ? 25 : 55;
-
+        const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+        const serviceName = selectedOption.textContent;
+        const price = parseFloat(selectedOption.dataset.price);
+        
         if (!time) {
             scheduleMessage.textContent = 'Por favor, selecione um horário disponível.';
             scheduleMessage.style.color = '#dc3545';
@@ -286,45 +294,20 @@ function initializeDashboard() {
         const agendamento = {
             client_name: currentUser.name,
             barber_name: barber,
-            service: service === 'combo' ? ['corte de cabelo masculino', 'barba completa'] : [service === 'corte' ? 'corte de cabelo masculino' : 'barba completa'],
+            services: [
+                {name : serviceName, price : price}
+            ],
             date: `${date} ${time}:00`,
             status: 'scheduled',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            price
+            total_price: price
         };
-
         try {
-            // Verificar se já existe um agendamento no mesmo horário com o mesmo barbeiro (independentemente do serviço)
-            const appointments = await fetchWithErrorHandling('http://localhost:3000/api/agendamentos');
-            const hasConflict = appointments.some(appointment => 
-                appointment.barber_name === barber &&
-                appointment.date === agendamento.date &&
-                (appointment.status === 'scheduled' || appointment.status === 'confirmed')
-            );
-
-            if (hasConflict) {
-                scheduleMessage.textContent = `O barbeiro ${barber} já está ocupado neste horário. Por favor, escolha outro horário ou barbeiro.`;
-                scheduleMessage.style.color = '#dc3545';
-                populateTimeSlots(); // Atualizar os horários disponíveis para garantir consistência
-                return;
-            }
-
             // Se não houver conflito, prosseguir com o agendamento
             const response = await fetchWithErrorHandling('http://localhost:3000/api/agendamentos', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(agendamento)
             });
-
-            currentUser.appointments += 1;
-            localStorage.setItem('user', JSON.stringify(currentUser));
-
-            // Armazenar o último agendamento e seu ID no localStorage
-            lastAppointment = agendamento;
-            lastAppointmentId = response._id;
-            localStorage.setItem('lastAppointment', JSON.stringify(lastAppointment));
-            localStorage.setItem('lastAppointmentId', lastAppointmentId);
 
             scheduleMessage.textContent = 'Agendamento realizado com sucesso!';
             scheduleMessage.style.color = '#28a745';
@@ -333,6 +316,7 @@ function initializeDashboard() {
             loadClientAppointments(); // Atualizar a tabela de agendamentos
             populateTimeSlots(); // Atualizar os horários disponíveis
         } catch (error) {
+            console.log(error)
             // Simulação temporária para agendamento (se o backend não estiver disponível)
             const hasConflict = simulatedAppointments.some(appointment => 
                 appointment.barber_name === barber &&
@@ -371,24 +355,19 @@ function initializeDashboard() {
 
     // Função para cancelar o último agendamento (via card de visão geral)
     cancelAppointmentBtn.addEventListener('click', async () => {
-        if (!lastAppointmentId) {
+        if (!lastAppointment) {
             scheduleMessage.textContent = 'Nenhum agendamento para cancelar.';
             scheduleMessage.style.color = '#dc3545';
             return;
         }
-
         try {
-            await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${lastAppointmentId}`, {
+            await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${lastAppointment._id}/cancelar`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'canceled', updated_at: new Date().toISOString() })
             });
 
             // Limpar o último agendamento do localStorage
             lastAppointment = null;
-            lastAppointmentId = null;
-            localStorage.removeItem('lastAppointment');
-            localStorage.removeItem('lastAppointmentId');
 
             scheduleMessage.textContent = 'Agendamento cancelado com sucesso!';
             scheduleMessage.style.color = '#28a745';

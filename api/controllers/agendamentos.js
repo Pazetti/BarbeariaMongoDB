@@ -51,23 +51,27 @@ export const getAgendamentos = async (req, res) => {
             };
           }
         if(status) {
-            query.status = {$regex : status, $options : "i"}
+            if(Array.isArray(status)){
+                query.status = {$in : status}
+            }
+            else{
+                query.status = status
+            }
         }
 
         const sortOptions = {}
-        if(sort){
+        if (sort) {
             sortOptions[sort] = order.toLowerCase() === "desc" ? -1 : 1
+        } else {
+            // Ordenação padrão por nome se nenhuma for especificada
+            sortOptions.date = 1
         }
-        else{
-            //Por padrão ordena por data da mais p
-            sortOptions.date = order.toLowerCase() === "desc" ? -1 : 1
-        }
-        console.log(query)
+
         const db = req.app.locals.db
         const agendamentos = await db
             .collection(collectionAgendamentos)
             .find(query)
-            .sort(sortOptions) // Adicione esta linha
+            .sort(sortOptions) 
             .skip(Number.parseInt(skip))
             .limit(Number.parseInt(limit))
             .toArray()
@@ -142,11 +146,13 @@ export const createAgendamento = async (req, res) => {
             created_at : new Date(),
             updated_at : new Date()
         })
+
+        console.log(result)
       
         res.status(201).json({
-          _id: result.insertedId,
-          ...newAgendamento,
-          created_at : new Date().toISOString(),
+            _id: result.insertedId,
+            ...newAgendamento,
+            created_at : new Date().toISOString(),
             updated_at : new Date().toISOString()
         })
       } catch (error) {
