@@ -123,7 +123,9 @@ export const createAgendamento = async (req, res) => {
         const db = req.app.locals.db
       
         //Checando se uma data já existe
-        const existingAgendamento = await db.collection(collectionAgendamentos).findOne({ date, barber_name})
+        const existingAgendamento = await db.collection(collectionAgendamentos).findOne(
+            { date, barber_name, status : 'scheduled'}
+        )
 
         if (existingAgendamento) {
           return res.status(409).json({

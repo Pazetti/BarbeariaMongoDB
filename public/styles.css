@@ -44,7 +44,6 @@ body {
 
 /* Botões */
 .btn {
-    background-color: #D32F2F; /* Vermelho para botões primários */
     color: #FFFFFF; /* Branco para texto */
     border: none;
     padding: 0.7rem 1.5rem;
@@ -52,10 +51,6 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
     text-decoration: none;
-}
-
-.btn:hover {
-    background-color: #B71C1C; /* Vermelho mais escuro no hover */
 }
 
 .btn-primary { background-color: #D32F2F; } /* Vermelho */
@@ -66,6 +61,9 @@ body {
 
 .btn-confirm { background-color: #28a745; } /* Verde para confirmar */
 .btn-confirm:hover { background-color: #218838; }
+
+.btn-edit { background-color: #286ea7; } /* Verde para confirmar */
+.btn-edit :hover { background-color: #275072 !important; }
 
 .btn-cta { background-color: #D32F2F; font-weight: bold; } /* Vermelho para CTA */
 .btn-cta:hover { background-color: #B71C1C; }

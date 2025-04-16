@@ -21,11 +21,12 @@ db.agendamentos.find({
 
 use('barbearia')
 db.agendamentos.find({
+    barber_name : 'Maria Santos',
     $and : [
-        {date : {$lte : '2025-07-22 23:59:59'}},
-        {date : {$gte : '2024-07-22 00:00:00'}},
+        {date : {$lte : '2025-04-16 23:59:59'}},
+        {date : {$gte : '2025-04-16 00:00:00'}},
     ]
-})
+}).sort({date : 1})
 
 use('barbearia')
 db.agendamentos.drop()
