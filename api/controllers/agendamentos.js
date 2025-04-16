@@ -124,7 +124,7 @@ export const createAgendamento = async (req, res) => {
       
         //Checando se uma data já existe
         const existingAgendamento = await db.collection(collectionAgendamentos).findOne(
-            { date, barber_name, status : 'scheduled'}
+            { date, barber_name, status : {$ne : 'canceled'}}
         )
 
         if (existingAgendamento) {
@@ -167,26 +167,30 @@ export const createAgendamento = async (req, res) => {
 export const updateAgendamento = async (req, res) => {
     try {
         const {id} = req.params
-        const updateData = req.body
+        const updatedData = req.body
         const db = req.app.locals.db
 
-        if(updateData.date){
+        if(updatedData.date){
             const existingAgendamento = await db.collection(collectionAgendamentos).findOne({
-                date : updateData.date,
+                date : updatedData.date,
+                barber_name : updatedData.barber_name,
+                status : {$ne : 'canceled'},
                 _id : {$ne : new ObjectId(id)}
             })
 
             if(existingAgendamento){
-                return  res.status(409).json({
+                return res.status(409).json({
                     error: true,
                     message: "Outro agendamento já está marcado para essa data",
                 })
             }
         }
 
+        console.log(updatedData)
+
         const result = await db.collection(collectionAgendamentos).updateOne(
             {_id : new ObjectId(id)},
-            {$set : updateData}
+            {$set : updatedData}
         )
 
         if (result.matchedCount === 0) {
