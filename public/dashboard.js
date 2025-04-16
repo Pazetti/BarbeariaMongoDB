@@ -46,7 +46,7 @@ function initializeDashboard() {
 
     // Função para exibir o último agendamento no card
     async function displayLastAppointment() {
-        const response = await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos?client_name=${currentUser.name}&status=scheduled&status=confirmed`)
+        const response = await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos?client_name=${encodeURIComponent(currentUser.name)}&status=scheduled&status=confirmed`)
         lastAppointment = response.data[0]
         if (lastAppointment) {
             if(lastAppointment.status == 'scheduled')
@@ -70,7 +70,7 @@ function initializeDashboard() {
     async function loadClientAppointments() {
         try {
 
-            const appointments = await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos?client_name=${currentUser.name}`);
+            const appointments = await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos?client_name=${encodeURIComponent(currentUser.name)}`);
             // Atualizar a tabela de agendamentos
             clientAppointmentsTableBody.innerHTML = '';
             appointments.data.forEach(appointment => {
@@ -82,10 +82,14 @@ function initializeDashboard() {
                     <td>${appointment.barber_name}</td>
                     <td>${appointment.services.map(service => service.name).join(", ")}</td>
                     <td class='status-${appointment.status}'>${statusLabels[appointment.status] || appointment.status}</td>
-                    <td>
-                        ${appointment.status === 'scheduled' ? 
-                            `<button class="btn btn-secondary cancel-client-btn" data-id="${appointment._id}">Cancelar</button>` : 
-                            '-'}
+                    <td class='appointments-table-actions'>
+                        ${appointment.status === 'scheduled' 
+                            ? 
+                                `<button class="btn btn-secondary cancel-client-btn" data-id="${appointment._id}">Cancelar</button> 
+                                <button class="btn btn-edit cancel-client-btn" data-id="${appointment._id}">Editar</button>` 
+                            :  
+                                '-'
+                        }
                     </td>
                 `;
                 clientAppointmentsTableBody.appendChild(row);
@@ -221,7 +225,8 @@ function initializeDashboard() {
         // Obter agendamentos existentes para a data e barbeiro selecionados
         let existingAppointments = [];
         try {
-            const url = `http://localhost:3000/api/agendamentos?barber_name=${selectedBarber}&start_date=${selectedDate}&end_date=${selectedDate}&status=scheduled`
+            const url = `http://localhost:3000/api/agendamentos?barber_name=${encodeURIComponent(selectedBarber)}&start_date=${selectedDate}&end_date=${selectedDate}&status=scheduled`
+            
             existingAppointments = await fetchWithErrorHandling(url);
         } catch (error) {
             console.log(error)
@@ -245,12 +250,11 @@ function initializeDashboard() {
         const end = 18 * 60;  // 18:00
         let hasAvailableSlots = false;
 
-        for (let i = start; i < end; i += 30) {
+        for (let i = start; i <= end; i += 30) {
             const hour = Math.floor(i / 60);
             const minute = i % 60;
             const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
             const isOccupied = occupiedTimes.includes(time);
-
             const option = document.createElement('option');
             option.value = time;
             option.textContent = time;
