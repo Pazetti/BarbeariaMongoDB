@@ -49,10 +49,15 @@ function initializeDashboard() {
         const response = await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos?client_name=${encodeURIComponent(currentUser.name)}&status=scheduled&status=confirmed`)
         lastAppointment = response.data[0]
         if (lastAppointment) {
-            if(lastAppointment.status == 'scheduled')
+            if(lastAppointment.status == 'scheduled'){
                 cancelAppointmentBtn.style.display = 'block'
+                editAppointmentOverviewBtn.style.display = 'block'
+            }
             else                
+            {
                 cancelAppointmentBtn.style.display = 'none'
+                editAppointmentOverviewBtn.style.display = 'none'
+            }
             appointmentOverview.style.display = 'block';
             const [date, time] = lastAppointment.date.split(' ');
             appointmentDate.textContent = date.split('-').reverse().join('/');
@@ -86,7 +91,7 @@ function initializeDashboard() {
                         ${appointment.status === 'scheduled' 
                             ? 
                                 `<button class="btn btn-secondary cancel-client-btn" data-id="${appointment._id}">Cancelar</button> 
-                                <button class="btn btn-edit cancel-client-btn" data-id="${appointment._id}">Editar</button>` 
+                                <button class="btn btn-edit edit-client-btn" data-id="${appointment._id}">Editar</button>` 
                             :  
                                 '-'
                         }
@@ -225,7 +230,7 @@ function initializeDashboard() {
         // Obter agendamentos existentes para a data e barbeiro selecionados
         let existingAppointments = [];
         try {
-            const url = `http://localhost:3000/api/agendamentos?barber_name=${encodeURIComponent(selectedBarber)}&start_date=${selectedDate}&end_date=${selectedDate}&status=scheduled`
+            const url = `http://localhost:3000/api/agendamentos?barber_name=${encodeURIComponent(selectedBarber)}&start_date=${selectedDate}&end_date=${selectedDate}&status=scheduled&status=confirmed`
             
             existingAppointments = await fetchWithErrorHandling(url);
         } catch (error) {
@@ -425,6 +430,221 @@ function initializeDashboard() {
     }
 
     updateProgress();
+
+    // ===== INÍCIO DO CÓDIGO ADICIONAL PARA O MODAL DE EDIÇÃO =====
+
+// Variáveis para o modal de edição
+const editAppointmentModal = document.getElementById('editAppointmentModal');
+const editAppointmentForm = document.getElementById('editAppointmentForm');
+const editServiceSelect = document.getElementById('editServiceSelect');
+const editBarberSelect = document.getElementById('editBarberSelect');
+const editDateInput = document.getElementById('editDateInput');
+const editTimeSelect = document.getElementById('editTimeSelect');
+const editTotalPrice = document.getElementById('editTotalPrice');
+const closeEditModalBtn = document.getElementById('closeEditModalBtn');
+const editAppointmentOverviewBtn = document.getElementById('editAppointmentOverviewBtn');
+
+// Variável para armazenar o ID do agendamento sendo editado
+let currentEditingAppointmentId = null;
+
+
+
+document.querySelectorAll('.edit-client-btn').forEach(button => {
+    button.addEventListener('click', openEditModal(button.getAttribute('data-id').value))
+})
+// Função para abrir o modal de edição
+function openEditModal(appointmentId) {
+    currentEditingAppointmentId = appointmentId;
+    
+    // Buscar os dados do agendamento
+    fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}`)
+        .then(appointment => {
+            // Preencher o formulário com os dados do agendamento
+            const [date, time] = appointment.date.split(' ');
+            
+            // Definir o serviço
+            const serviceName = appointment.services[0].name.toLowerCase();
+            if (serviceName.includes('corte') && serviceName.includes('barba')) {
+                editServiceSelect.value = 'combo';
+            } else if (serviceName.includes('barba')) {
+                editServiceSelect.value = 'barba';
+            } else {
+                editServiceSelect.value = 'corte';
+            }
+            
+            // Definir o barbeiro
+            editBarberSelect.value = appointment.barber_name;
+            
+            // Definir a data
+            editDateInput.value = date;
+            
+            // Preencher os horários disponíveis
+            populateEditTimeSlots(date, appointment.barber_name, time.slice(0, 5));
+            
+            // Atualizar o preço total
+            updateEditTotalPrice();
+            
+            // Exibir o modal
+            editAppointmentModal.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados do agendamento:', error);
+            alert('Não foi possível carregar os dados do agendamento. Tente novamente mais tarde.');
+        });
+}
+
+// Função para fechar o modal de edição
+function closeEditModal() {
+    editAppointmentModal.style.display = 'none';
+    currentEditingAppointmentId = null;
+}
+
+// Função para preencher os horários disponíveis no formulário de edição
+async function populateEditTimeSlots(selectedDate, selectedBarber, currentTime) {
+    editTimeSelect.innerHTML = '';
+    
+    // Verificar se a data e o barbeiro foram selecionados
+    if (!selectedDate || !selectedBarber) {
+        editTimeSelect.innerHTML = '<option value="">Selecione uma data e um barbeiro</option>';
+        return;
+    }
+    
+    // Obter agendamentos existentes para a data e barbeiro selecionados
+    try {
+        const url = `http://localhost:3000/api/agendamentos?barber_name=${encodeURIComponent(selectedBarber)}&start_date=${selectedDate}&end_date=${selectedDate}&status=scheduled&status=confirmed`;
+        const existingAppointments = await fetchWithErrorHandling(url);
+        
+        // Extrair os horários ocupados (exceto o horário atual sendo editado)
+        const occupiedTimes = existingAppointments.data
+            .filter(appointment => appointment._id !== currentEditingAppointmentId)
+            .map(appointment => {
+                const [, time] = appointment.date.split(' ');
+                return time.slice(0, 5); // Pegar apenas "HH:MM"
+            });
+        
+        // Preencher os horários disponíveis
+        const start = 8 * 60; // 8:00
+        const end = 18 * 60;  // 18:00
+        
+        for (let i = start; i <= end; i += 30) {
+            const hour = Math.floor(i / 60);
+            const minute = i % 60;
+            const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+            const isOccupied = occupiedTimes.includes(time);
+            const option = document.createElement('option');
+            option.value = time;
+            option.textContent = time;
+            
+            if (isOccupied) {
+                option.disabled = true;
+                option.textContent += ' (Ocupado)';
+            }
+            
+            // Selecionar o horário atual do agendamento
+            if (time === currentTime) {
+                option.selected = true;
+            }
+            
+            editTimeSelect.appendChild(option);
+        }
+    } catch (error) {
+        console.error('Erro ao buscar horários disponíveis:', error);
+        editTimeSelect.innerHTML = '<option value="">Erro ao carregar horários</option>';
+    }
+}
+
+// Função para atualizar o preço total no formulário de edição
+function updateEditTotalPrice() {
+    const selectedOption = editServiceSelect.options[editServiceSelect.selectedIndex];
+    const price = parseFloat(selectedOption.dataset.price);
+    editTotalPrice.textContent = price.toFixed(2);
+}
+
+// Evento para atualizar os horários disponíveis quando a data ou o barbeiro mudar
+editDateInput.addEventListener('change', () => {
+    populateEditTimeSlots(editDateInput.value, editBarberSelect.value);
+});
+
+editBarberSelect.addEventListener('change', () => {
+    populateEditTimeSlots(editDateInput.value, editBarberSelect.value);
+});
+
+// Evento para atualizar o preço total quando o serviço mudar
+editServiceSelect.addEventListener('change', updateEditTotalPrice);
+
+// Evento para fechar o modal
+closeEditModalBtn.addEventListener('click', closeEditModal);
+
+// Evento para enviar o formulário de edição
+editAppointmentForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (!currentEditingAppointmentId) {
+        alert('ID do agendamento não encontrado.');
+        return;
+    }
+    
+    const selectedOption = editServiceSelect.options[editServiceSelect.selectedIndex];
+    const serviceName = selectedOption.textContent;
+    const price = parseFloat(selectedOption.dataset.price);
+    
+    const updatedAppointment = {
+        client_name: document.getElementById('userName').textContent,
+        barber_name: editBarberSelect.value,
+        services: [
+            {name: serviceName, price: price}
+        ],
+        date: `${editDateInput.value} ${editTimeSelect.value}:00`,
+        status: 'scheduled',
+        total_price: price
+    };
+
+    console.log(updatedAppointment)
+    
+    try {
+        await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${currentEditingAppointmentId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedAppointment)
+        });
+        
+        // Fechar o modal
+        closeEditModal();
+        
+        // Atualizar a interface
+        scheduleMessage.textContent = 'Agendamento atualizado com sucesso!';
+        scheduleMessage.style.color = '#28a745';
+        
+        // Recarregar os dados
+        displayLastAppointment();
+        loadClientAppointments();
+        populateTimeSlots();
+    } catch (error) {
+        console.error('Erro ao atualizar agendamento:', error);
+        alert(`Erro ao atualizar agendamento: ${error.message || 'Tente novamente mais tarde.'}`);
+    }
+});
+
+// Adicionar evento ao botão de editar na visão geral do último agendamento
+if (editAppointmentOverviewBtn) {
+    editAppointmentOverviewBtn.addEventListener('click', () => {
+        if (lastAppointment && lastAppointment._id) {
+            openEditModal(lastAppointment._id);
+        } else {
+            alert('Nenhum agendamento disponível para edição.');
+        }
+    });
+}
+
+// Adicionar eventos aos botões de editar na tabela de agendamentos
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('edit-client-btn')) {
+        const appointmentId = e.target.getAttribute('data-id');
+        if (appointmentId) {
+            openEditModal(appointmentId);
+        }
+    }
+});
 }
 
 // Inicializar o módulo

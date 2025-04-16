@@ -802,4 +802,105 @@ body {
       flex-wrap: wrap;
     }
   }
+
+  /* Modal Container - mantendo o estilo base fornecido */
+/* Modal Container - com !important para sobrepor estilos globais */
+#editAppointmentModal.modal {
+  display: none;
+  position: fixed !important;
+  z-index: 1000;
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Conteúdo do Modal - com ajustes para centralização */
+#editAppointmentModal .modal-content {
+  background-color: #fff;
+  margin: 10vh auto !important; /* Alterado para vh para melhor responsividade */
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+  transform: none !important; /* Garante que nenhum transform global afete */
+  top: auto !important;
+  left: auto !important;
+}
+
+/* Estilos específicos para o conteúdo do formulário */
+#editAppointmentModal h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#editAppointmentModal .input-field {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+#editAppointmentModal label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+#editAppointmentModal p {
+  margin: 15px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+#editAppointmentModal p strong {
+  font-weight: 600;
+}
+
+/* Estilos para os botões */
+#editAppointmentModal .btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-right: 10px;
+}
+
+#editAppointmentModal .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+#editAppointmentModal .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Ajustes para mobile */
+@media (max-width: 600px) {
+  #editAppointmentModal .modal-content {
+    width: 90%;
+    margin: 20% auto;
+    padding: 20px 15px;
+  }
   
+  #editAppointmentModal .btn {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-right: 0;
+  }
+}
