@@ -99,7 +99,7 @@ function initializeAdminDashboard() {
 
       // Atualizar estatísticas
       const totalAppointments = await fetchWithErrorHandling("http://localhost:3000/api/agendamentos/total")
-      document.getElementById("totalAppointments").textContent = totalAppointments.total
+      document.getElementById("totalAppointments").textContent = totalAppointments.count
       //document.getElementById("totalClients").textContent = clients.length
 
       // Atualizar informações de paginação

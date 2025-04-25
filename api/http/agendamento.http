@@ -1,54 +1,30 @@
 // Instale a extensão REST Client para efetuar os testes
 // Teste da API REST de agendamentos
 @baseURL = http://localhost:3000/api/agendamentos
-@id = 680adafaac63103ade01df8c
+@id = 680b9753915c9a4d437bf74d
+@page = 2
+
+// ------------- GET ------------- //
 
 ###
-// GET - Lista todos os agendamentos (por padrão apenas 10 por página)
+// GET - Lista todos os agendamentos (por padrão apenas 20 por página)
 GET {{baseURL}}
 Content-Type: application/json
+
+###
+// GET - Lista todos os agendamentos, pegando os de outra página (página 2 no exemplo)
+GET {{baseURL}}?page={{page}}
+Content-Type: application/json
+
 ###
 // GET - Lista o agendamento pelo ID
 GET {{baseURL}}/{{id}}
 Content-Type: application/json
 
 ###
-// POST - Insere um novo agendamento
-POST {{baseURL}}
+// GET - Lista o agendamento pelo ID (utilizando um ID inválido)
+GET {{baseURL}}/1
 Content-Type: application/json
-
-{
-    "client_name": "Louis",
-    "barber_name": "Pedro Oliveira",
-    "services":[
-        {"name":"design de sobrancelha","price":0.23},
-        {"name":"tratamento capilar","price":62.27},
-        {"name":"massagem relaxante", "price" : 100.00}
-    ],
-    "date": "2025-05-13 22:03:03"
-}
-
-###
-// PUT - Altera um agendamento já existente
-PUT {{baseURL}}/{{id}}
-Content-Type: application/json
-
-{
-    "date" : "22/10/2023"
-}
-
-###
-// DELETE - Remove o agendamento pelo id
-DELETE {{baseURL}}/{{id}}
-Content-Type: application/json
-
-###
-//PATCH - ATUALIZA O STATUS DO AGENDAMENTO para cancelado(utilizando data de teste)
-PATCH {{baseURL}}/{{id}}/cancelar
-
-###
-//PATCH - ATUALIZA O STATUS DO AGENDAMENTO para confirmado(utilizando data de teste)
-PATCH {{baseURL}}/{{id}}/confirmar
 
 ###
 // GET - Lista todos os agendamentos (com limite de 2)
@@ -57,7 +33,7 @@ Content-Type: application/json
 
 ###
 // GET - Lista todos os agendamentos em ordem desc (começa da data mais distante até a mais próxima)
-GET {{baseURL}}?order=desc
+GET {{baseURL}}?sort=date&order=desc
 Content-Type: application/json
 
 ###
@@ -72,10 +48,152 @@ Content-Type: application/json
 
 ###
 // GET - Lista de agendamentos para serviço de depilação facial
-GET {{baseURL}}?service=corteinfantil
+GET {{baseURL}}?service=corte de cabelo infantil
 Content-Type: application/json
 
 ###
-// GET - Lista de agendamentos para serviço de depilação facial
-GET {{baseURL}}?date=2024-06-04 22:15:38
+// GET - Lista de agendamentos em um dia específico
+GET {{baseURL}}?date=2025-04-02
 Content-Type: application/json
+
+###
+// GET - Lista de agendamentos em um intervalo de dias
+GET {{baseURL}}?start_date=2025-04-02&end_date=2025-04-10&limit=100
+Content-Type: application/json
+
+// ------------- POST ------------- //
+
+###
+// POST - Insere um novo agendamento (Sem erros)
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+    "client_name": "Louis",
+    "barber_name": "Maria Santos",
+    "services":[
+        {"name":"design de sobrancelha","price": 50.00},
+        {"name":"tratamento capilar","price":100.00},
+        {"name":"depilação facial", "price" : 100.00}
+    ],
+    "date": "2025-12-25 18:00:00"
+    //Status deve ser scheduled (feito pelo controller)
+    //Total price deve ser 250 (feito pelo controller)
+}
+
+###
+// POST - Tentando cadastrar um vazio
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+   
+}
+
+###
+// POST - Insere um novo agendamento (Todos campos errados)
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+    "client_name": "",
+    "barber_name": "wfjVulDjhaeBwdevqRMIFFHwLXMIMSzTAkCIpdMGpNatCpGNMXg",
+    "services": [
+        {},
+        {
+            "name": "corte de cabelo infantil"
+        },
+        {
+            "price": 20.99
+        }
+    ],
+    "date": "2025-12-24 19:00:00"
+}
+//client_name -> nao pode estar vazio
+//barber_name -> 51 caracteres, deve ser no máximo 50
+//services -> services com objeto vazio, faltando price e outro faltando name
+//date -> deve estar entre 08:00:00 e 18:00:00, sendo o limite de 8 a 18 horas, minutos deve ser 0 ou 30 e segundos sempre 0
+
+// ------------- PUT ------------- //
+
+###
+// PUT - Altera um agendamento já existente (Sem erros)
+PUT {{baseURL}}/{{id}}
+Content-Type: application/json
+
+{
+    "barber_name" : "Pedro Oliveira",
+    "services" : [
+        {"name" : "outro serviço", "price" : 10.00},
+        {"name" : "mais um serviço", "price" : 20.00}
+    ],
+    "date" : "2025-04-30 14:30:00"
+}
+
+###
+// PUT - Altera um agendamento já existente (Com erro de ID)
+PUT {{baseURL}}/2
+Content-Type: application/json
+
+{
+    "barber_name" : "Pedro Oliveira",
+    "services" : [
+        {"name" : "outro serviço", "price" : 10.00},
+        {"name" : "mais um serviço", "price" : 20.00}
+    ],
+    "date" : "2025-04-30 14:30:00"
+}
+
+###
+// PUT - Altera um agendamento já existente (Com erro de entrada)
+PUT {{baseURL}}/{{id}}
+Content-Type: application/json
+
+{
+    "client_name" : "Outro cliente",
+    "barber_name" : "2342342",
+    "services" : [
+        {},
+        {"name" : "mais um serviço"},
+        {"price" : 10.00}
+    ],
+    "date" : "2025-04-55 19:30:00"
+}
+
+###
+// PUT - Altera um agendamento já existente (Com erro de entrada)
+PUT {{baseURL}}/{{id}}
+Content-Type: application/json
+
+{
+    "services" : "Serviço único"
+}
+// ------------- DELETE ------------- //
+
+###
+// DELETE - Remove o agendamento pelo id
+DELETE {{baseURL}}/{{id}}
+Content-Type: application/json
+
+###
+// DELETE - Remove o agendamento pelo id (erro de ID)
+DELETE {{baseURL}}/3
+Content-Type: application/json
+
+// ------------- PATCH ------------- //
+
+###
+//PATCH - ATUALIZA O STATUS DO AGENDAMENTO para cancelado
+PATCH {{baseURL}}/{{id}}/cancelar
+
+###
+//PATCH - ATUALIZA O STATUS DO AGENDAMENTO para confirmado
+PATCH {{baseURL}}/{{id}}/confirmar
+
+###
+//PATCH - ATUALIZA O STATUS DO AGENDAMENTO para cancelado(com erro de ID)
+PATCH {{baseURL}}/1/cancelar
+
+###
+//PATCH - ATUALIZA O STATUS DO AGENDAMENTO para confirmado(com erro de ID)
+PATCH {{baseURL}}/1/confirmar
