@@ -2,12 +2,12 @@ import { ObjectId } from "mongodb"
 
 const collectionAgendamentos = 'agendamentos'
 
-export const getTotalAgendamentos = async (req,res) => {
+export const getCountAgendamentos = async (req,res) => {
     try {
         const db = req.app.locals.db;
-        const total = await db.collection(collectionAgendamentos).find().count()
+        const count = await db.collection(collectionAgendamentos).find().count()
 
-        res.status(200).json({total})
+        res.status(200).json({count})
     } catch (error) {
         console.error("Erro ao contar agendamentos:", error)
         res.status(500).json({ error: true, message: "Falha ao contar agendamentos" })
@@ -21,6 +21,7 @@ export const getAgendamentos = async (req, res) => {
             client_name, 
             barber_name,
             service, 
+            date,
             start_date,
             end_date, 
             status, 
@@ -41,15 +42,19 @@ export const getAgendamentos = async (req, res) => {
         if(service) {
             query["services.name"] = { $regex: service, $options: "i" };
         }
-        if (start_date && end_date) {
-            const start = start_date + " 00:00:00";
-            const end = end_date + " 23:59:59";
+        if(date || (start_date && end_date)){
+            const start = date 
+                ? date + " 00:00:00" 
+                : start_date + " 00:00:00"
+            const end = date 
+                ? date + " 23:59:59"
+                : end_date + " 23:59:59";
           
             query.date = {
               $gte: start,
               $lte: end
             };
-          }
+        }
         if(status) {
             if(Array.isArray(status)){
                 query.status = {$in : status}
@@ -143,16 +148,21 @@ export const createAgendamento = async (req, res) => {
             date
         }
 
-        newAgendamento.services.forEach(service => {
-            total_price += service.price;
-        });
+        if(services){
+            newAgendamento.services.forEach(service => {
+                total_price += service.price;
+            });
+        }
+
+        const created_at = getBrazilDate();
+        const updated_at = getBrazilDate();
 
         const result = await db.collection(collectionAgendamentos).insertOne({
             ...newAgendamento,
             status : status,
             total_price : total_price,
-            created_at : new Date(),
-            updated_at : new Date()
+            created_at : created_at,
+            updated_at : updated_at
         })
       
         res.status(201).json({
@@ -160,8 +170,8 @@ export const createAgendamento = async (req, res) => {
             ...newAgendamento,
             status: status, 
             total_price : total_price,
-            created_at : new Date(),
-            updated_at : new Date()
+            created_at : created_at,
+            updated_at : updated_at
         })
       } catch (error) {
         console.error("Problema ao criar um agendamento:", error)
@@ -174,7 +184,20 @@ export const updateAgendamento = async (req, res) => {
     try {
         const {id} = req.params
         const updatedData = req.body
+
         const db = req.app.locals.db
+
+        const isAgendamentoAvailableToEdit = await db.collection(collectionAgendamentos).findOne({
+            _id : new ObjectId(id),
+            status : "scheduled"
+        })
+
+        if(!isAgendamentoAvailableToEdit){
+            return res.status(400).json({
+                error: true,
+                message: "O agendamento não pode ser alterado pois já foi cancelado ou confirmado",
+            })
+        }
 
         if(updatedData.date){
             const existingAgendamento = await db.collection(collectionAgendamentos).findOne({
@@ -192,7 +215,14 @@ export const updateAgendamento = async (req, res) => {
             }
         }
 
-        console.log(updatedData)
+        if(updatedData.services){
+            updatedData.total_price = 0
+            updatedData.services.forEach(service => {
+                updatedData.total_price  += service.price
+            });
+        }
+
+        updatedData.updated_at = getBrazilDate();
 
         const result = await db.collection(collectionAgendamentos).updateOne(
             {_id : new ObjectId(id)},
@@ -280,4 +310,15 @@ const mudarStatusAgendamento = async (req, res, newStatus) => {
         console.error(`Agendamento não ${text}, ocorreu um problema ao alterar o status, : `, error)
         res.status(500).json({ error: true, message: `Agendamento não ${text}, ocorreu um erro ao alterar status, ` })
     }
+}
+
+const getBrazilDate = () => {
+    const date = new Date().toLocaleString("pt-BR", {
+        timeZone: "America/Sao_Paulo",
+        hour12: false
+    });
+    
+    const [d, t] = date.split(", ");
+    const [day, month, year] = d.split("/");
+    return `${year}-${month}-${day} ${t}`;
 }

@@ -306,9 +306,10 @@ function initializeDashboard() {
             services: [
                 {name : serviceName, price : price}
             ],
-            date: `${date} ${time}:00`,
-            status: 'scheduled',
+            date: `${date} ${time}:00`
         };
+
+        console.log(agendamento)
         try {
             // Se não houver conflito, prosseguir com o agendamento
             const response = await fetchWithErrorHandling('http://localhost:3000/api/agendamentos', {
@@ -316,6 +317,8 @@ function initializeDashboard() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(agendamento)
             });
+
+            console.log(response)
 
             scheduleMessage.textContent = 'Agendamento realizado com sucesso!';
             scheduleMessage.style.color = '#28a745';
@@ -588,14 +591,11 @@ editAppointmentForm.addEventListener('submit', async (e) => {
     const price = parseFloat(selectedOption.dataset.price);
     
     const updatedAppointment = {
-        client_name: document.getElementById('userName').textContent,
         barber_name: editBarberSelect.value,
         services: [
             {name: serviceName, price: price}
         ],
         date: `${editDateInput.value} ${editTimeSelect.value}:00`,
-        status: 'scheduled',
-        total_price: price
     };
 
     console.log(updatedAppointment)

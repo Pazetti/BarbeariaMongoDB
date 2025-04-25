@@ -1,13 +1,13 @@
 import express from "express"
 import {
-    getTotalAgendamentos,
     getAgendamentos,
     getAgendamentoById,
     createAgendamento,
     updateAgendamento,
     deleteAgendamento,
     cancelarAgendamento,
-    confirmarAgendamento
+    confirmarAgendamento,
+    getCountAgendamentos
 } from "../controllers/agendamentos.js"
 import { validateAgendamento, validateObjectId, validateUpdateAgendamento } from "../middleware/validation.js"
 
@@ -17,7 +17,7 @@ const router = express.Router()
 router.get("/", getAgendamentos)
 
 //Get count agendamentos
-router.get("/total", getTotalAgendamentos)
+router.get("/total", getCountAgendamentos)
 
 // // Get agendamento by ID
 router.get("/:id",validateObjectId, getAgendamentoById)
