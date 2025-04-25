@@ -114,13 +114,15 @@ export const getAgendamentoById = async (req, res) => {
 // Create new agendamento
 export const createAgendamento = async (req, res) => {
     try {
+        const db = req.app.locals.db
+
         const { client_name,
             barber_name,
             services,
-            total_price,
-            date,
-            status} = req.body
-        const db = req.app.locals.db
+            date } = req.body
+
+        let total_price = 0;
+        const status = "scheduled"
       
         //Checando se uma data já existe
         const existingAgendamento = await db.collection(collectionAgendamentos).findOne(
@@ -138,24 +140,28 @@ export const createAgendamento = async (req, res) => {
             client_name,
             barber_name,
             services,
-            total_price,
-            date,
-            status
+            date
         }
-      
+
+        newAgendamento.services.forEach(service => {
+            total_price += service.price;
+        });
+
         const result = await db.collection(collectionAgendamentos).insertOne({
             ...newAgendamento,
+            status : status,
+            total_price : total_price,
             created_at : new Date(),
             updated_at : new Date()
         })
-
-        console.log(result)
       
         res.status(201).json({
             _id: result.insertedId,
             ...newAgendamento,
-            created_at : new Date().toISOString(),
-            updated_at : new Date().toISOString()
+            status: status, 
+            total_price : total_price,
+            created_at : new Date(),
+            updated_at : new Date()
         })
       } catch (error) {
         console.error("Problema ao criar um agendamento:", error)

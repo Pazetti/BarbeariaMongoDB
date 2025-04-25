@@ -1,4 +1,7 @@
 use('barbearia')
+db.agendamentos.find()
+
+use('barbearia')
 db.agendamentos.find({date : '2025-02-20 06:43:56'})
 
 use('barbearia')
