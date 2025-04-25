@@ -27,7 +27,7 @@ export const getAgendamentos = async (req, res) => {
             status, 
             sort, 
             page = 1, 
-            limit = 20, 
+            limit = 0, 
             order = "asc"
         } = req.query
         const skip = (page - 1) * limit
@@ -40,7 +40,7 @@ export const getAgendamentos = async (req, res) => {
             query.barber_name = {$regex : barber_name, $options : "i"}
         }
         if(service) {
-            query["services.name"] = { $regex: service, $options: "i" };
+            query["services.name"] = service;
         }
         if(date || (start_date && end_date)){
             const start = date 

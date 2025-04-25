@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Barbearia MongoDB</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard.styles.css">
 </head>
 <body>
     <header class="header">
@@ -24,18 +25,12 @@
         <div class="schedule-section">
             <h3 class="section-title">Agendar um Horário</h3>
             <form id="scheduleForm" class="schedule-form">
-                <label for="serviceSelect">Serviço:</label>
-                <select id="serviceSelect" class="input-field" required>
-                    <option value="corte" data-price="40.00">Corte de Cabelo (R$40)</option>
-                    <option value="barba" data-price="40.00">Barba (R$25)</option>
-                    <option value="combo" data-price="40.00">Combo (Corte + Barba) (R$55)</option>
-                </select>
-
                 <label for="barberSelect">Barbeiro:</label>
                 <select id="barberSelect" class="input-field" required>
                     <option value="João Silva">João Silva</option>
                     <option value="Pedro Oliveira">Pedro Oliveira</option>
                     <option value="Maria Santos">Maria Santos</option>
+                    <option value="Xande Carvalho">Xande Carvalho</option>
                 </select>
 
                 <label for="dateInput">Data:</label>
@@ -43,6 +38,39 @@
 
                 <label for="timeSelect">Horário:</label>
                 <select id="timeSelect" class="input-field" required></select>
+
+                <div class="services-container">
+                    <label>Serviços (selecione até 3):</label>
+                    <div class="services-grid">
+                        <div class="service-item">
+                            <input type="checkbox" id="service1" class="service-checkbox" data-name="corte de cabelo" data-price="50">
+                            <label for="service1">Corte de cabelo - R$50,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="service2" class="service-checkbox" data-name="corte de cabelo infantil" data-price="40">
+                            <label for="service2">Corte de cabelo infantil - R$40,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="service3" class="service-checkbox" data-name="barba completa" data-price="30">
+                            <label for="service3">Barba completa - R$30,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="service4" class="service-checkbox" data-name="coloração de cabelo" data-price="120">
+                            <label for="service4">Coloração de cabelo - R$120,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="service5" class="service-checkbox" data-name="tratamento capilar" data-price="90">
+                            <label for="service5">Tratamento capilar - R$90,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="service6" class="service-checkbox" data-name="depilação facial" data-price="60">
+                            <label for="service6">Depilação facial - R$60,00</label>
+                        </div>
+                    </div>
+                    <div class="total-price">
+                        <p><strong>Preço Total:</strong> <span id="totalPriceDisplay">R$0,00</span></p>
+                    </div>
+                </div>
 
                 <button type="submit" class="btn btn-primary">Agendar</button>
             </form>
@@ -57,6 +85,7 @@
                 <p><strong>Horário:</strong> <span id="appointmentTime"></span></p>
                 <p><strong>Barbeiro:</strong> <span id="appointmentBarber"></span></p>
                 <p><strong>Serviço:</strong> <span id="appointmentService"></span></p>
+                <p><strong>Preço:</strong> <span id="appointmentPrice"></span></p>
                 <p><strong>Status do Agendamentos:</strong> <span id="appointmentStatus"></span></p>
                 <button id="editAppointmentOverviewBtn" class="btn btn-edit">Editar</button>
                 <button id="cancelAppointmentBtn" class="btn btn-secondary">Cancelar Agendamento</button>
@@ -73,6 +102,7 @@
                         <th>Horário</th>
                         <th>Barbeiro</th>
                         <th>Serviço</th>
+                        <th>Preço</th>
                         <th>Status</th>
                         <th>Ação</th>
                     </tr>
@@ -84,50 +114,94 @@
         </div>
 
         <!-- Assinatura -->
-        <div class="subscription-section">
+        <!-- <div class="subscription-section">
             <h3 class="section-title">Assinatura</h3>
             <p class="subscription-text" id="subscriptionStatus">Você não é assinante. Faça 5 agendamentos para ganhar um corte grátis!</p>
             <button id="subscribeBtn" class="btn btn-cta">Tornar-se Assinante</button>
-        </div>
+        </div> -->
 
         <!-- Benefícios -->
-        <div class="benefits-section">
+        <!-- <div class="benefits-section">
             <h3 class="section-title">Benefícios</h3>
             <p class="benefits-text">Progresso para o próximo corte grátis: <span id="progress">0/5</span></p>
-        </div>
+        </div> -->
     </section>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Confirmação</h3>
+            <p id="confirmationMessage">Tem certeza que deseja cancelar este agendamento?</p>
+            <div class="modal-actions">
+                <button id="cancelActionBtn" class="btn btn-secondary">Não</button>
+                <button id="confirmActionBtn" class="btn btn-primary">Sim</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editAppointmentModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>Editar Agendamento</h3>
+            <form id="editAppointmentForm">
+                <label for="editBarberSelect">Barbeiro:</label>
+                <select id="editBarberSelect" class="input-field" required>
+                    <option value="João Silva">João Silva</option>
+                    <option value="Pedro Oliveira">Pedro Oliveira</option>
+                    <option value="Maria Santos">Maria Santos</option>
+                    <option value="Xande Carvalho">Xande Carvalho</option>
+                </select>
+                
+                <label for="editDateInput">Data:</label>
+                <input type="date" id="editDateInput" class="input-field" required>
+                
+                <label for="editTimeSelect">Horário:</label>
+                <select id="editTimeSelect" class="input-field" required></select>
+                
+                <div class="services-container">
+                    <label>Serviços (selecione até 3):</label>
+                    <div class="services-grid">
+                        <div class="service-item">
+                            <input type="checkbox" id="editService1" class="edit-service-checkbox" data-name="corte de cabelo" data-price="50">
+                            <label for="editService1">Corte de cabelo - R$50,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="editService2" class="edit-service-checkbox" data-name="corte de cabelo infantil" data-price="40">
+                            <label for="editService2">Corte de cabelo infantil - R$40,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="editService3" class="edit-service-checkbox" data-name="barba completa" data-price="30">
+                            <label for="editService3">Barba completa - R$30,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="editService4" class="edit-service-checkbox" data-name="coloração de cabelo" data-price="120">
+                            <label for="editService4">Coloração de cabelo - R$120,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="editService5" class="edit-service-checkbox" data-name="tratamento capilar" data-price="90">
+                            <label for="editService5">Tratamento capilar - R$90,00</label>
+                        </div>
+                        <div class="service-item">
+                            <input type="checkbox" id="editService6" class="edit-service-checkbox" data-name="depilação facial" data-price="60">
+                            <label for="editService6">Depilação facial - R$60,00</label>
+                        </div>
+                    </div>
+                    <div class="total-price">
+                        <p><strong>Preço Total:</strong> <span id="editTotalPrice">R$0,00</span></p>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" id="closeEditModalBtn" class="btn btn-secondary">Fechar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>© 2025 Barbearia MongoDB. Todos os direitos reservados.</p>
     </footer>
-
-
-    <div id="editAppointmentModal" class="modal" style="display:none;">
-        <div class="modal-content">
-          <h3>Editar Agendamento</h3>
-          <form id="editAppointmentForm">
-              <label for="editServiceSelect">Serviço:</label>
-              <select id="editServiceSelect" class="input-field" required>
-                  <option value="corte" data-price="40.00">Corte de Cabelo (R$40)</option>
-                  <option value="barba" data-price="25.00">Barba (R$25)</option>
-                  <option value="combo" data-price="55.00">Combo (Corte + Barba) (R$55)</option>
-              </select>
-              <label for="editBarberSelect">Barbeiro:</label>
-              <select id="editBarberSelect" class="input-field" required>
-                  <option value="João Silva">João Silva</option>
-                  <option value="Pedro Oliveira">Pedro Oliveira</option>
-                  <option value="Maria Santos">Maria Santos</option>
-              </select>
-              <label for="editDateInput">Data:</label>
-              <input type="date" id="editDateInput" class="input-field" required>
-              <label for="editTimeSelect">Horário:</label>
-              <select id="editTimeSelect" class="input-field" required></select>
-              <p><strong>Preço Total:</strong> R$<span id="editTotalPrice">0.00</span></p>
-              <button type="submit" class="btn btn-primary">Salvar</button>
-              <button type="button" id="closeEditModalBtn" class="btn btn-secondary">Fechar</button>
-          </form>
-        </div>
-      </div>
 
     <script src="script.js" type="module"></script>   
 </body>
