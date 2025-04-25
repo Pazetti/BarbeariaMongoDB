@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard do Administrador - Barbearia MongoDB</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.styles.css">
 </head>
 <body>
     <header class="header">
@@ -40,40 +41,91 @@
             
             <!-- Filtros reorganizados em uma linha -->
             <div class="filters-container">
-                <div class="filters-row">
-                    <div class="filter-group">
-                        <label for="statusFilter">Status:</label>
-                        <select id="statusFilter" class="input-field-filter">
-                            <option value="all">Todos</option>
-                            <option value="scheduled">Agendado</option>
-                            <option value="confirmed">Confirmado</option>
-                            <option value="canceled">Cancelado</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="filterType">Filtrar por:</label>
-                        <select id="filterType" class="input-field-filter">
-                            <option value="client_name">Nome do Cliente</option>
-                            <option value="barber_name">Nome do Barbeiro</option>
-                            <option value="service">Tipo de Serviço</option>
-                        </select>
-                        <input type="text" id="filterInput" class="input-field-filter" placeholder="Digite o nome do cliente...">
-                    </div>
-                    
+                <!-- Seção de Datas -->
+                <div class="filter-section">
+                    <h4 class="filter-section-title">Escolha uma data</h4>
                     <div class="filter-group date-filter-group">
-                        <label>Período:</label>
                         <div class="date-inputs">
+                            <label for="startDateFilter">De:</label>
                             <input type="date" id="startDateFilter" class="input-field-filter date-input">
-                            <span>até</span>
+                            <label for="endDateFilter">Até:</label>
                             <input type="date" id="endDateFilter" class="input-field-filter date-input">
                             <button id="todayBtn" class="btn btn-primary btn-small">Hoje</button>
                         </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="singleDayFilter">
+                            <label for="singleDayFilter">Dia específico</label>
+                        </div>
                     </div>
-                    
-                    <div class="filter-group checkbox-container">
-                        <input type="checkbox" id="singleDayFilter">
-                        <label for="singleDayFilter">Dia específico</label>
+                </div>
+                
+                <!-- Seção de Selects -->
+                <div class="filter-section">
+                    <h4 class="filter-section-title">Selecione os filtros</h4>
+                    <div class="filter-selects">
+                        <div class="filter-group">
+                            <label for="statusFilter">Status:</label>
+                            <select id="statusFilter" class="input-field-filter">
+                                <option value="all">Todos</option>
+                                <option value="scheduled">Agendado</option>
+                                <option value="confirmed">Confirmado</option>
+                                <option value="canceled">Cancelado</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="barberSelect">Barbeiro:</label>
+                            <select id="barberSelect" class="input-field-filter">
+                                <option value="all">Todos</option>
+                                <option value="João Silva">João Silva</option>
+                                <option value="Maria Santos">Maria Santos</option>
+                                <option value="Pedro Oliveira">Pedro Oliveira</option>
+                                <option value="Xande Carvalho">Xande Carvalho</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="serviceSelect">Serviço:</label>
+                            <select id="serviceSelect" class="input-field-filter">
+                                <option value="all">Todos</option>
+                                <option value="corte de cabelo">Corte de cabelo</option>
+                                <option value="corte de cabelo infantil">Corte de cabelo infantil</option>
+                                <option value="barba completa">Barba completa</option>
+                                <option value="coloração de cabelo">Coloração de cabelo</option>
+                                <option value="tratamento capilar">Tratamento capilar</option>
+                                <option value="depilação facial">Depilação facial</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Seção de Input -->
+                <div class="filter-section">
+                    <h4 class="filter-section-title">Digite sua busca</h4>
+                    <div class="filter-group">
+                        <label for="clientNameInput">Nome do Cliente:</label>
+                        <input type="text" id="clientNameInput" class="input-field-filter" placeholder="Digite o nome do cliente...">
+                    </div>
+                </div>
+                
+                <!-- Seção de Ordenação -->
+                <div class="filter-section">
+                    <h4 class="filter-section-title">Escolha como ordenar</h4>
+                    <div class="filter-group">
+                        <label for="sortColumnSelect">Ordenar por:</label>
+                        <select id="sortColumnSelect" class="input-field-filter">
+                            <option value="date">Data</option>
+                            <option value="client_name">Cliente</option>
+                            <option value="barber_name">Barbeiro</option>
+                            <option value="service">Serviço</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sortOrderSelect">Ordem:</label>
+                        <select id="sortOrderSelect" class="input-field-filter">
+                            <option value="asc">Crescente</option>
+                            <option value="desc">Decrescente</option>
+                        </select>
                     </div>
                 </div>
                 
@@ -108,6 +160,7 @@
                         <th>Cliente</th>
                         <th>Serviço</th>
                         <th>Barbeiro</th>
+                        <th>Preço total</th>
                         <th>Status</th>
                         <th>Ações</th>
                     </tr>
@@ -126,6 +179,18 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Confirmação</h3>
+            <p id="confirmationMessage">Tem certeza que deseja realizar esta ação?</p>
+            <div class="modal-actions">
+                <button id="cancelActionBtn" class="btn btn-secondary">Cancelar</button>
+                <button id="confirmActionBtn" class="btn btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>© 2025 Barbearia MongoDB. Todos os direitos reservados.</p>

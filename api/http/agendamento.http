@@ -1,19 +1,25 @@
 // Instale a extensão REST Client para efetuar os testes
 // Teste da API REST de agendamentos
 @baseURL = http://localhost:3000/api/agendamentos
-@id = 680b9753915c9a4d437bf74d
+@id = 680bcf35c00fc4e1c643cef5
 @page = 2
+@limit = 10
 
 // ------------- GET ------------- //
 
 ###
-// GET - Lista todos os agendamentos (por padrão apenas 20 por página)
+// GET - Lista todos os agendamentos 
 GET {{baseURL}}
 Content-Type: application/json
 
 ###
+// GET - Lista todos os agendamentos (com limite de 10)
+GET {{baseURL}}?limit={{limit}}
+Content-Type: application/json
+
+###
 // GET - Lista todos os agendamentos, pegando os de outra página (página 2 no exemplo)
-GET {{baseURL}}?page={{page}}
+GET {{baseURL}}?limit={{limit}}&page={{page}}
 Content-Type: application/json
 
 ###
@@ -24,11 +30,6 @@ Content-Type: application/json
 ###
 // GET - Lista o agendamento pelo ID (utilizando um ID inválido)
 GET {{baseURL}}/1
-Content-Type: application/json
-
-###
-// GET - Lista todos os agendamentos (com limite de 2)
-GET {{baseURL}}?limit=2
 Content-Type: application/json
 
 ###
