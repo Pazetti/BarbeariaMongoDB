@@ -9,11 +9,7 @@ import {
     cancelarAgendamento,
     confirmarAgendamento
 } from "../controllers/agendamentos.js"
- 
-/* Métodos de validação
-import { 
-    
-} from "../middleware/validation.js" */
+import { validateAgendamento, validateObjectId, validateUpdateAgendamento } from "../middleware/validation.js"
 
 const router = express.Router()
 
@@ -24,21 +20,21 @@ router.get("/", getAgendamentos)
 router.get("/total", getTotalAgendamentos)
 
 // // Get agendamento by ID
-router.get("/:id", getAgendamentoById)
+router.get("/:id",validateObjectId, getAgendamentoById)
 
 // // Create new agendamento
-router.post("/", createAgendamento)
+router.post("/",validateAgendamento, createAgendamento)
 
 // // Update agendamento
-router.put("/:id", updateAgendamento)
+router.put("/:id",validateObjectId, validateUpdateAgendamento, updateAgendamento)
 
 // Patch status de um agendamento para cancelado
-router.patch("/:id/cancelar", cancelarAgendamento)
+router.patch("/:id/cancelar",validateObjectId,validateUpdateAgendamento, cancelarAgendamento)
 
 // Patch status de um agendamento para confirmado
-router.patch("/:id/confirmar", confirmarAgendamento)
+router.patch("/:id/confirmar",validateObjectId, validateUpdateAgendamento, confirmarAgendamento)
 
 // // Delete agendamento
-router.delete("/:id", deleteAgendamento)
+router.delete("/:id", validateObjectId, deleteAgendamento)
 
 export default router

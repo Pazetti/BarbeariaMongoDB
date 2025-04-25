@@ -308,7 +308,6 @@ function initializeDashboard() {
             ],
             date: `${date} ${time}:00`,
             status: 'scheduled',
-            total_price: price
         };
         try {
             // Se não houver conflito, prosseguir com o agendamento
