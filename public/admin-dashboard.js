@@ -15,11 +15,14 @@ function initializeAdminDashboard() {
 
   // Elementos do DOM
   const statusFilter = document.getElementById("statusFilter")
-  const filterType = document.getElementById("filterType")
-  const filterInput = document.getElementById("filterInput")
+  const clientNameInput = document.getElementById("clientNameInput")
+  const barberSelect = document.getElementById("barberSelect")
+  const serviceSelect = document.getElementById("serviceSelect")
   const startDateFilter = document.getElementById("startDateFilter")
   const endDateFilter = document.getElementById("endDateFilter")
   const singleDayFilter = document.getElementById("singleDayFilter")
+  const sortOrderSelect = document.getElementById("sortOrderSelect")
+  const sortColumnSelect = document.getElementById("sortColumnSelect")
   const todayBtn = document.getElementById("todayBtn")
   const refreshBtn = document.getElementById("refreshBtn")
   const clearFiltersBtn = document.getElementById("clearFiltersBtn")
@@ -30,6 +33,10 @@ function initializeAdminDashboard() {
   const nextPageBtn = document.getElementById("nextPageBtn")
   const paginationNumbers = document.getElementById("paginationNumbers")
   const itemsPerPageSelect = document.getElementById("itemsPerPage")
+  const confirmationModal = document.getElementById("confirmationModal")
+  const confirmationMessage = document.getElementById("confirmationMessage")
+  const confirmActionBtn = document.getElementById("confirmActionBtn")
+  const cancelActionBtn = document.getElementById("cancelActionBtn")
 
   // Estado da paginação
   let currentPage = 1
@@ -38,7 +45,7 @@ function initializeAdminDashboard() {
   let totalItems = 0
 
   // Simulação de agendamentos (usando os mesmos dados simulados do dashboard de cliente)
-  let simulatedAppointments = JSON.parse(localStorage.getItem("simulatedAppointments")) || []
+  const simulatedAppointments = JSON.parse(localStorage.getItem("simulatedAppointments")) || []
 
   // Função para carregar estatísticas e agendamentos
   async function loadStats(page = 1) {
@@ -61,20 +68,19 @@ function initializeAdminDashboard() {
         filters.status = statusFilter.value
       }
 
-      // Adicionar filtro baseado no tipo selecionado
-      if (filterInput.value.trim()) {
-        const selectedFilter = filterType.value
-        switch (selectedFilter) {
-          case "client_name":
-            filters.client_name = filterInput.value.trim()
-            break
-          case "barber_name":
-            filters.barber_name = filterInput.value.trim()
-            break
-          case "service":
-            filters.service = filterInput.value.trim()
-            break
-        }
+      // Adicionar filtro de nome do cliente
+      if (clientNameInput.value.trim()) {
+        filters.client_name = clientNameInput.value.trim()
+      }
+
+      // Adicionar filtro de barbeiro
+      if (barberSelect.value && barberSelect.value !== "all") {
+        filters.barber_name = barberSelect.value
+      }
+
+      // Adicionar filtro de serviço
+      if (serviceSelect.value && serviceSelect.value !== "all") {
+        filters.service = serviceSelect.value
       }
 
       // Adicionar filtro de data
@@ -86,7 +92,11 @@ function initializeAdminDashboard() {
         filters.end_date = endDateFilter.value
       }
 
-      //filters.sort = 'client_name'
+      // Adicionar ordenação
+      if (sortColumnSelect.value) {
+        filters.sort = sortColumnSelect.value
+        filters.order = sortOrderSelect.value
+      }
 
       // Montar query string com URLSearchParams
       const queryString = new URLSearchParams(filters).toString()
@@ -95,12 +105,21 @@ function initializeAdminDashboard() {
       console.log(appointmentsUrl) // conferindo a URL final
 
       const appointments = await fetchWithErrorHandling(appointmentsUrl)
-      //const clients = await fetchWithErrorHandling("http://localhost:3000/api/users")
+
+      // Carregar opções de barbeiros e serviços se ainda não foram carregadas
+      if (barberSelect.options.length <= 1) {
+        // Código para carregar barbeiros
+        // await loadBarbers();
+      }
+
+      if (serviceSelect.options.length <= 1) {
+        // Código para carregar serviços
+        // await loadServices();
+      }
 
       // Atualizar estatísticas
       const totalAppointments = await fetchWithErrorHandling("http://localhost:3000/api/agendamentos/total")
       document.getElementById("totalAppointments").textContent = totalAppointments.count
-      //document.getElementById("totalClients").textContent = clients.length
 
       // Atualizar informações de paginação
       totalItems = appointments.pagination.total
@@ -126,17 +145,18 @@ function initializeAdminDashboard() {
         row.innerHTML = `
           <td>${new Date(appointment.date).toLocaleString("pt-BR")}</td>
           <td>${appointment.client_name}</td>
-          <td>${appointment.services.map(service => service.name).join(", ")}</td>
+          <td>${appointment.services.map((service) => service.name).join(", ")}</td>
           <td>${appointment.barber_name}</td>
+          <td>${appointment.total_price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
           <td class='status-${appointment.status}'>${statusLabels[appointment.status] || appointment.status}</td>
           <td class='appointments-table-actions'>
             ${
               appointment.status === "scheduled"
                 ? `<button class="btn btn-confirm confirm-btn" data-id="${appointment._id}">Confirmar</button>
                    <button class="btn btn-secondary cancel-btn" data-id="${appointment._id}">Cancelar</button>`
-                : appointment.status === "canceled" 
-                ? `<button class="btn btn-secondary delete-btn" data-id="${appointment._id}">Deletar</button>`
-                : "-"
+                : appointment.status === "canceled"
+                  ? `<button class="btn btn-secondary delete-btn" data-id="${appointment._id}">Deletar</button>`
+                  : "-"
             }
           </td>
         `
@@ -145,32 +165,17 @@ function initializeAdminDashboard() {
 
       // Adicionar eventos aos botões de confirmar
       document.querySelectorAll(".confirm-btn").forEach((button) => {
-        button.addEventListener("click", () => clickActionButton(button, "confirmed"))
+        button.addEventListener("click", () => showConfirmationModal(button, "confirmed"))
       })
 
       // Adicionar eventos aos botões de cancelar
       document.querySelectorAll(".cancel-btn").forEach((button) => {
-        button.addEventListener("click", () => clickActionButton(button, "canceled"))
+        button.addEventListener("click", () => showConfirmationModal(button, "canceled"))
       })
 
-      document.querySelectorAll('.delete-btn').forEach((button) => {
-        button.addEventListener("click", async () => {
-          const appointmentId = button.getAttribute("data-id")
-          const row = button.closest("tr")
-          try {
-            row.style.opacity = "0.4" // Feedback visual
-            await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}`, {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-            })
-          } catch (error) {
-            console.error(`Falha ao deletar:`, error)
-            // Rollback visual se necessário
-            row.style.opacity = "1"
-          }
-        })
+      document.querySelectorAll(".delete-btn").forEach((button) => {
+        button.addEventListener("click", () => showConfirmationModal(button, "delete"))
       })
-
     } catch (error) {
       console.log("Não foi possível exibir dados da API " + error)
       // Se o backend não estiver disponível, usar a simulação
@@ -180,8 +185,51 @@ function initializeAdminDashboard() {
     }
   }
 
-  async function clickActionButton(button, statusValue) {
+  // Função para mostrar o modal de confirmação
+  function showConfirmationModal(button, action) {
     const appointmentId = button.getAttribute("data-id")
+    let message = ""
+
+    switch (action) {
+      case "confirmed":
+        message = "Deseja confirmar este agendamento?"
+        break
+      case "canceled":
+        message = "Deseja cancelar este agendamento?"
+        break
+      case "delete":
+        message = "Deseja excluir este agendamento permanentemente?"
+        break
+    }
+
+    confirmationMessage.textContent = message
+    confirmationModal.style.display = "flex"
+
+    // Remover eventos anteriores para evitar duplicação
+    confirmActionBtn.replaceWith(confirmActionBtn.cloneNode(true))
+    cancelActionBtn.replaceWith(cancelActionBtn.cloneNode(true))
+
+    // Referenciar novamente após clonagem
+    const newConfirmBtn = document.getElementById("confirmActionBtn")
+    const newCancelBtn = document.getElementById("cancelActionBtn")
+
+    // Adicionar novos eventos
+    newConfirmBtn.addEventListener("click", () => {
+      confirmationModal.style.display = "none"
+      if (action === "delete") {
+        deleteAppointment(appointmentId, button)
+      } else {
+        updateAppointmentStatus(appointmentId, action, button)
+      }
+    })
+
+    newCancelBtn.addEventListener("click", () => {
+      confirmationModal.style.display = "none"
+    })
+  }
+
+  // Função para atualizar o status do agendamento
+  async function updateAppointmentStatus(appointmentId, statusValue, button) {
     const row = button.closest("tr")
 
     const action = statusValue == "canceled" ? "cancelar" : "confirmar"
@@ -195,12 +243,34 @@ function initializeAdminDashboard() {
       })
 
       // Atualização direta do DOM (sem recarregar tudo)
-      row.cells[4].textContent = statusTextContent // Status
-      row.cells[4].classList.remove(`status-scheduled`)
-      row.cells[4].classList.add(`status-${statusValue}`)
-      row.cells[5].innerHTML = "-" // Ações
+      row.cells[5].textContent = statusTextContent // Status
+      row.cells[5].classList.remove(`status-scheduled`)
+      row.cells[5].classList.add(`status-${statusValue}`)
+      row.cells[6].innerHTML = "-" // Ações
     } catch (error) {
       console.error(`Falha ao ${action}:`, error)
+      // Rollback visual se necessário
+      row.style.opacity = "1"
+    }
+  }
+
+  // Função para deletar um agendamento
+  async function deleteAppointment(appointmentId, button) {
+    const row = button.closest("tr")
+    try {
+      row.style.opacity = "0.4" // Feedback visual
+      await fetchWithErrorHandling(`http://localhost:3000/api/agendamentos/${appointmentId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      })
+
+      // Remover a linha da tabela após exclusão bem-sucedida
+      row.remove()
+
+      // Atualizar contador
+      updateResultsCount(document.querySelectorAll("#appointmentsTableBody tr").length, totalItems - 1)
+    } catch (error) {
+      console.error(`Falha ao deletar:`, error)
       // Rollback visual se necessário
       row.style.opacity = "1"
     }
@@ -230,28 +300,24 @@ function initializeAdminDashboard() {
       filteredAppointments = filteredAppointments.filter((appointment) => appointment.status === selectedStatus)
     }
 
-    // Aplicar filtro baseado no tipo selecionado
-    if (filterInput.value.trim()) {
-      const selectedFilter = filterType.value
-      const searchTerm = filterInput.value.trim().toLowerCase()
+    // Filtrar por nome do cliente
+    if (clientNameInput.value.trim()) {
+      const searchTerm = clientNameInput.value.trim().toLowerCase()
+      filteredAppointments = filteredAppointments.filter((appointment) =>
+        appointment.client_name.toLowerCase().includes(searchTerm),
+      )
+    }
 
-      switch (selectedFilter) {
-        case "client_name":
-          filteredAppointments = filteredAppointments.filter((appointment) =>
-            appointment.client_name.toLowerCase().includes(searchTerm),
-          )
-          break
-        case "barber_name":
-          filteredAppointments = filteredAppointments.filter((appointment) =>
-            appointment.barber_name.toLowerCase().includes(searchTerm),
-          )
-          break
-        case "service":
-          filteredAppointments = filteredAppointments.filter((appointment) =>
-            appointment.service.some((service) => service.toLowerCase().includes(searchTerm)),
-          )
-          break
-      }
+    // Filtrar por barbeiro
+    if (barberSelect.value && barberSelect.value !== "all") {
+      filteredAppointments = filteredAppointments.filter((appointment) => appointment.barber_id === barberSelect.value)
+    }
+
+    // Filtrar por serviço
+    if (serviceSelect.value && serviceSelect.value !== "all") {
+      filteredAppointments = filteredAppointments.filter((appointment) =>
+        appointment.service.some((service) => service.id === serviceSelect.value),
+      )
     }
 
     // Filtrar por data
@@ -272,6 +338,44 @@ function initializeAdminDashboard() {
       filteredAppointments = filteredAppointments.filter((appointment) => {
         const appointmentDate = new Date(appointment.date)
         return appointmentDate <= endDate
+      })
+    }
+
+    // Aplicar ordenação
+    if (sortColumnSelect.value) {
+      const sortColumn = sortColumnSelect.value
+      const sortOrder = sortOrderSelect.value
+
+      filteredAppointments.sort((a, b) => {
+        let valueA, valueB
+
+        switch (sortColumn) {
+          case "date":
+            valueA = new Date(a.date)
+            valueB = new Date(b.date)
+            break
+          case "client_name":
+            valueA = a.client_name.toLowerCase()
+            valueB = b.client_name.toLowerCase()
+            break
+          case "barber_name":
+            valueA = a.barber_name.toLowerCase()
+            valueB = b.barber_name.toLowerCase()
+            break
+          case "service":
+            valueA = a.service[0].toLowerCase()
+            valueB = b.service[0].toLowerCase()
+            break
+          default:
+            valueA = new Date(a.date)
+            valueB = new Date(b.date)
+        }
+
+        if (sortOrder === "asc") {
+          return valueA > valueB ? 1 : -1
+        } else {
+          return valueA < valueB ? 1 : -1
+        }
       })
     }
 
@@ -305,7 +409,9 @@ function initializeAdminDashboard() {
             appointment.status === "scheduled"
               ? `<button class="btn btn-confirm confirm-btn" data-id="${appointment._id}">Confirmar</button>
                  <button class="btn btn-secondary cancel-btn" data-id="${appointment._id}">Cancelar</button>`
-              : "-"
+              : appointment.status === "canceled"
+                ? `<button class="btn btn-secondary delete-btn" data-id="${appointment._id}">Deletar</button>`
+                : "-"
           }
         </td>
       `
@@ -314,32 +420,17 @@ function initializeAdminDashboard() {
 
     // Adicionar eventos aos botões de confirmar
     document.querySelectorAll(".confirm-btn").forEach((button) => {
-      button.addEventListener("click", () => {
-        const appointmentId = button.getAttribute("data-id")
-        simulatedAppointments = simulatedAppointments.map((appointment) => {
-          if (appointment._id === appointmentId) {
-            return { ...appointment, status: "confirmed", updated_at: new Date().toISOString() }
-          }
-          return appointment
-        })
-        localStorage.setItem("simulatedAppointments", JSON.stringify(simulatedAppointments))
-        loadStatsSimulated(currentPage)
-      })
+      button.addEventListener("click", () => showConfirmationModal(button, "confirmed"))
     })
 
     // Adicionar eventos aos botões de cancelar
     document.querySelectorAll(".cancel-btn").forEach((button) => {
-      button.addEventListener("click", () => {
-        const appointmentId = button.getAttribute("data-id")
-        simulatedAppointments = simulatedAppointments.map((appointment) => {
-          if (appointment._id === appointmentId) {
-            return { ...appointment, status: "canceled", updated_at: new Date().toISOString() }
-          }
-          return appointment
-        })
-        localStorage.setItem("simulatedAppointments", JSON.stringify(simulatedAppointments))
-        loadStatsSimulated(currentPage)
-      })
+      button.addEventListener("click", () => showConfirmationModal(button, "canceled"))
+    })
+
+    // Adicionar eventos aos botões de deletar
+    document.querySelectorAll(".delete-btn").forEach((button) => {
+      button.addEventListener("click", () => showConfirmationModal(button, "delete"))
     })
 
     loadingMessage.style.display = "none"
@@ -420,11 +511,14 @@ function initializeAdminDashboard() {
   // Função para limpar todos os filtros
   function clearFilters() {
     statusFilter.value = "all"
-    filterType.value = "client_name"
-    filterInput.value = ""
+    clientNameInput.value = ""
+    barberSelect.value = "all"
+    serviceSelect.value = "all"
     startDateFilter.value = ""
     endDateFilter.value = ""
     singleDayFilter.checked = false
+    sortOrderSelect.value = "asc"
+    sortColumnSelect.value = "date"
     loadStats(1)
   }
 
@@ -453,19 +547,13 @@ function initializeAdminDashboard() {
 
   // Adicionar eventos aos filtros
   statusFilter.addEventListener("change", () => loadStats(1))
-  filterType.addEventListener("change", () => {
-    // Atualizar placeholder do input baseado no tipo selecionado
-    const placeholders = {
-      client_name: "Digite o nome do cliente...",
-      barber_name: "Digite o nome do barbeiro...",
-      service: "Digite o tipo de serviço...",
-    }
-    filterInput.placeholder = placeholders[filterType.value]
-  })
-
-  filterInput.addEventListener("keyup", (e) => {
+  clientNameInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter") loadStats(1)
   })
+  barberSelect.addEventListener("change", () => loadStats(1))
+  serviceSelect.addEventListener("change", () => loadStats(1))
+  sortOrderSelect.addEventListener("change", () => loadStats(1))
+  sortColumnSelect.addEventListener("change", () => loadStats(1))
 
   startDateFilter.addEventListener("change", syncDates)
   endDateFilter.addEventListener("change", syncDates)
