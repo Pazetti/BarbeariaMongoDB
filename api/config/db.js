@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb"
 let db;
 export async function connectToDatabase(app){
     try{
-        const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/barbearia"
+        const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/Barbearia"
         const client = new MongoClient(MONGODB_URI)
         await client.connect()
         console.log('Conectado ao MongoDB!')
